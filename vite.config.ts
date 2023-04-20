@@ -1,4 +1,5 @@
 import react from '@vitejs/plugin-react-swc'
+import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import { VitePWA, VitePWAOptions } from 'vite-plugin-pwa'
 
@@ -89,4 +90,10 @@ const pwaOptions: Partial<VitePWAOptions> = {
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react(), VitePWA(pwaOptions)],
+    resolve: {
+        alias: {
+            '@': resolve(__dirname, 'src'),
+        },
+    },
+    base: './',
 })
