@@ -1,0 +1,11 @@
+# IDE
+/.idea
+/.vscode
+/.fleet
+.*.meta.*
+*.log
+
+/node_modules
+/dist
+/dist-ssr
+/dev-dist

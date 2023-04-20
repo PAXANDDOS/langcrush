@@ -1,0 +1,21 @@
+# IDE
+/.idea/
+/.vscode/
+/.fleet/
+
+.git*
+*.md
+.*.meta.*
+.*.cache
+.prettier*
+.eslint*
+
+/dev-dist/
+/dist/
+/.husky/
+
+/docker/Dockerfile
+/.dockerignore
+/.editorconfig
+/.env
+/.env.*
