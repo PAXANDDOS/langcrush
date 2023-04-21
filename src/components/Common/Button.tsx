@@ -1,30 +1,34 @@
-import classNames from 'classnames'
+import { motion as m } from 'framer-motion'
 
-interface ButtonProps {
+interface Props {
     content: string | React.ReactNode
-    full?: boolean
-    textSize?: string
+    className?: string
+    onClick?: () => void
 }
 
-export const Button: React.FC<ButtonProps> = props => {
+export const Button: React.FC<Props> = ({ className, onClick, content }) => {
     return (
-        <button
+        <m.button
+            whileHover={{ y: -2 }}
+            whileTap={{ y: 4, boxShadow: 'inset 0px -2px rgba(0,0,0,0.3)' }}
+            initial={{ y: '25%', opacity: 0 }}
+            animate={{
+                y: 0,
+                opacity: 1,
+                transition: { type: 'spring', damping: 10 },
+            }}
+            exit={{ y: '15%', opacity: 0 }}
+            transition={{
+                duration: 0.2,
+            }}
             type="button"
-            className={classNames(
-                `p-6 active:translate-y-1`,
-                `font-rubik font-bold text-${props.textSize} tracking-wide text-white active:text-dark`,
-                'shadow-game-button active:shadow-game-button-active',
-                'border-2 border-regal-blue-active rounded-2xl',
-                'bg-regal-blue active:bg-regal-green',
-                { 'w-full': props.full }
-            )}
+            className={`p-6 xl:p-8 w-full
+            font-rubik font-bold xs:text-2xl xl:text-4xl tracking-wide text-white active:text-dark
+            shadow-game-button border-2 border-shadow rounded-2xl
+            bg-blue active:bg-green ${className}`}
+            onClick={onClick}
         >
-            {props.content}
-        </button>
+            {content}
+        </m.button>
     )
-}
-
-Button.defaultProps = {
-    full: false,
-    textSize: '3xl',
 }
