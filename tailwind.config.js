@@ -7,16 +7,19 @@ export default {
             width: { figureWidth: '52px' },
             boxShadow: {
                 default: '0 5px 30px 0 rgba(190, 190, 190)',
-                'game-button': 'inset 0px -6px 0px rgba(0,0,0,0.3)',
-                'game-button-active': 'inset 0px -2px rgba(0,0,0,0.3)',
+                button: 'inset 0px -6px 0px rgba(0,0,0,0.3)',
+                'button-active': 'inset 0px -2px rgba(0,0,0,0.3)',
+                hud: 'inset 0px -6px 0px rgba(0,0,0,0.3), 0px 4px 1px 1px rgba(0, 0, 0, 0.15)',
+                flat: '0px 4px 1px 0px rgba(0, 0, 0, 0.15)',
+                soft: '0px 0px 20px rgba(0, 0, 0, 0.15)',
             },
             fontFamily: {
                 rubik: ['Rubik', 'sans-serif'],
             },
             colors: {
                 dark: '#183153',
-                light: '#DEF1FF',
-                blue: '#8C8CED',
+                secondary: '#DEF1FF',
+                primary: '#8C8CED',
                 'dark-blue': '#19335c',
                 pink: '#CD8CED',
                 yellow: '#EDED8C',

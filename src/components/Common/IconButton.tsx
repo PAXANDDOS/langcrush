@@ -9,18 +9,18 @@ interface Props {
 }
 
 const colorVariants = {
-    primary: 'text-white active:text-dark-blue bg-blue active:bg-green',
-    secondary: 'text-dark-blue active:text-dark bg-light active:bg-green',
-    success: 'text-white active:text-dark-blue bg-green active:bg-blue',
+    primary: 'text-white active:text-dark-blue bg-primary active:bg-green',
+    secondary: 'text-dark-blue active:text-dark bg-secondary active:bg-green',
+    success: 'text-white active:text-dark-blue bg-green active:bg-primary',
     danger: 'text-white active:text-dark-blue bg-red active:bg-green',
 }
 
 const sizeVariants = {
-    xs: 'p-6 xl:p-8 xs:text-xl xl:text-3xl',
-    sm: 'p-4 px-5 xl:p-5 xl:px-6 xs:text-xl xl:text-2xl',
-    md: 'p-6 xl:p-8 xs:text-xl xl:text-3xl',
-    lg: 'p-8 xl:p-8 xs:text-xl xl:text-3xl',
-    xl: 'p-10 xl:p-8 xs:text-xl xl:text-3xl',
+    xs: 'px-2 xl:px-5 xs:text-lg xl:text-xl rounded-xl',
+    sm: 'p-4 px-5 xl:p-5 xl:px-6 xs:text-xl xl:text-2xl rounded-2xl',
+    md: 'p-6 xl:p-8 xs:text-xl xl:text-3xl rounded-2xl',
+    lg: 'p-8 xl:p-8 xs:text-xl xl:text-3xl rounded-2xl',
+    xl: 'p-10 xl:p-8 xs:text-xl xl:text-3xl rounded-2xl',
 }
 
 export const IconButton: React.FC<Props> = ({ icon, color, size, className, onClick }) => {
@@ -39,7 +39,7 @@ export const IconButton: React.FC<Props> = ({ icon, color, size, className, onCl
                 duration: 0.2,
             }}
             type="button"
-            className={`active:translate-y-1 shadow-game-button border-2 border-shadow rounded-2xl
+            className={`shadow-button border-2 border-shadow
             ${colorVariants[color!]} ${sizeVariants[size!]} ${className}`}
             onClick={onClick}
         >
@@ -51,4 +51,5 @@ export const IconButton: React.FC<Props> = ({ icon, color, size, className, onCl
 IconButton.defaultProps = {
     color: 'primary',
     size: 'md',
+    className: '',
 }

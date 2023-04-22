@@ -10,7 +10,7 @@ export const HomePage: React.FC = () => {
     return (
         <main className="flex flex-col items-center justify-center w-full h-screen xs:px-4 md:w-3/5 xl:w-1/4 bg-red-300">
             <m.h1
-                className="text-6xl font-black font-rubik text-blue mb-6"
+                className="text-6xl font-black font-rubik text-primary mb-6"
                 initial={{ y: '20%', opacity: 0 }}
                 animate={{
                     y: 0,
