@@ -39,7 +39,7 @@ export const GamePage: React.FC = () => {
                 )}
             </AnimatePresence>
             {gameReady && (
-                <main className="flex flex-col justify-between gap-5 w-full h-screen py-4 xs:px-4 md:w-3/5 xl:w-1/4">
+                <main className="flex flex-col gap-5 w-full h-screen py-4 xs:px-4 md:w-3/5 xl:w-1/4">
                     <div className="w-full grid grid-cols-6 place-items-center gap-1 bg-primary rounded-3xl shadow-flat border-4 border-secondary px-4 py-3">
                         <div className="text-center font-rubik font-medium text-white">
                             <h4 className="text-xs text-secondary leading-3">ЖИТТЯ</h4>
@@ -64,20 +64,43 @@ export const GamePage: React.FC = () => {
                             }}
                         />
                     </div>
-                    <div className="w-full h-full bg-white shadow-soft rounded-2xl grid grid-cols-3 grid-rows-auto">
-                        <div className="px-4 py-2 bg-primary border-4 border-secondary font-rubik font-bold text-xl text-white rounded-2xl">
-                            Ренамон
-                        </div>
-                        <div className="px-4 py-2 bg-primary border-4 border-secondary font-rubik font-bold text-xl text-white rounded-2xl">
-                            Ренамон
-                        </div>
-                        <div className="px-4 py-2 bg-primary border-4 border-secondary font-rubik font-bold text-xl text-white rounded-2xl">
-                            Ренамон
+                    <div className="w-full h-full bg-white shadow-soft rounded-2xl flex flex-col rotate-180">
+                        <div className="w-full h-fit flex flex-row flex-wrap justify-end">
+                            <div className="rotate-180 px-4 py-2 bg-primary border-4 border-secondary font-rubik font-bold text-xl text-white rounded-2xl">
+                                Абрикос
+                            </div>
+                            <div className="rotate-180 px-4 py-2 bg-primary border-4 border-secondary font-rubik font-bold text-xl text-white rounded-2xl">
+                                Банан
+                            </div>
+                            <div className="rotate-180 px-4 py-2 bg-primary border-4 border-secondary font-rubik font-bold text-xl text-white rounded-2xl">
+                                Груша
+                            </div>
+                            <div className="rotate-180 px-4 py-2 bg-primary border-4 border-secondary font-rubik font-bold text-xl text-white rounded-2xl">
+                                Диня
+                            </div>
+                            <div className="rotate-180 px-4 py-2 bg-primary border-4 border-secondary font-rubik font-bold text-xl text-white rounded-2xl">
+                                Журавлина
+                            </div>
+                            <div className="rotate-180 px-4 py-2 bg-primary border-4 border-secondary font-rubik font-bold text-xl text-white rounded-2xl">
+                                Інжир
+                            </div>
+                            <div className="rotate-180 px-4 py-2 bg-primary border-4 border-secondary font-rubik font-bold text-xl text-white rounded-2xl">
+                                Киві
+                            </div>
+                            <div className="rotate-180 px-4 py-2 bg-primary border-4 border-secondary font-rubik font-bold text-xl text-white rounded-2xl">
+                                Лимон
+                            </div>
+                            <div className="rotate-180 px-4 py-2 bg-primary border-4 border-secondary font-rubik font-bold text-xl text-white rounded-2xl">
+                                Малина
+                            </div>
+                            <div className="rotate-180 px-4 py-2 bg-primary border-4 border-secondary font-rubik font-bold text-xl text-white rounded-2xl">
+                                Нектарин
+                            </div>
                         </div>
                     </div>
                     <div className="w-full h-40 flex justify-center items-center">
                         <div className="px-5 py-3 bg-primary border-4 border-secondary font-rubik font-bold text-2xl text-white rounded-2xl shadow-flat">
-                            RENAMON
+                            PEACH
                         </div>
                     </div>
                 </main>
