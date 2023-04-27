@@ -1,16 +1,40 @@
-import { motion as m } from 'framer-motion'
+import { AnimatePresence, motion as m } from 'framer-motion'
+import { useState } from 'react'
 import { useLocation } from 'wouter'
 
+import { PasswordResetModal } from '../../components/Auth/PasswordResetModal'
+import { SignInModal } from '../../components/Auth/SignInModal'
+import { SignUpModal } from '../../components/Auth/SignUpModal'
+import { UserModal } from '../../components/Auth/UserModal'
 import { Button } from '../../components/Common/Button'
 import { IconButton } from '../../components/Common/IconButton'
+import { InfoModal } from '../../components/Modal/InfoModal'
+import { SettingsModal } from '../../components/Settings/SettingsModal'
+
+const modalsInitial = {
+    settings: false,
+    info: false,
+    user: false,
+    signin: false,
+    signup: false,
+    reset: false,
+}
 
 export const HomePage: React.FC = () => {
     const [location, setLocation] = useLocation()
+    const [modals, setModals] = useState(modalsInitial)
+
+    const handleModalSwitch = (
+        modal?: 'settings' | 'info' | 'user' | 'signin' | 'signup' | 'reset'
+    ) => {
+        setModals(modalsInitial)
+        modal && setModals(prevState => ({ ...prevState, [modal]: !prevState[modal] }))
+    }
 
     return (
-        <main className="flex flex-col items-center justify-center w-full h-screen xs:px-4 md:w-3/5 xl:w-1/4 bg-red-300">
+        <main className="flex flex-col items-center justify-center w-full h-screen xs:px-4 md:w-3/5 xl:w-1/4">
             <m.h1
-                className="text-6xl font-black font-rubik text-primary mb-6"
+                className="text-5xl xl:text-6xl font-black text-primary-500 mb-7"
                 initial={{ y: '20%', opacity: 0 }}
                 animate={{
                     y: 0,
@@ -22,7 +46,7 @@ export const HomePage: React.FC = () => {
                     duration: 0.25,
                 }}
             >
-                LANG<span className="text-red">DICE</span>
+                LANG<span className="text-red-400">CRUSH</span>
             </m.h1>
             <div className="grid grid-cols-4 gap-4">
                 <Button
@@ -34,10 +58,37 @@ export const HomePage: React.FC = () => {
                     icon="fa-solid fa-right-to-bracket"
                     color="secondary"
                     className="col-span-2"
+                    onClick={() => handleModalSwitch('signin')}
                 />
-                <IconButton icon="fa-solid fa-circle-info" color="secondary" />
-                <IconButton icon="fa-solid fa-gear" color="secondary" />
+                <IconButton
+                    icon="fa-solid fa-circle-info"
+                    color="secondary"
+                    onClick={() => handleModalSwitch('info')}
+                />
+                <IconButton
+                    icon="fa-solid fa-gear"
+                    color="secondary"
+                    onClick={() => handleModalSwitch('settings')}
+                />
             </div>
+            <AnimatePresence>
+                {modals.settings && (
+                    <SettingsModal
+                        handleClose={() => handleModalSwitch()}
+                        handleSwitch={handleModalSwitch}
+                    />
+                )}
+                {modals.info && <InfoModal handleClose={() => handleModalSwitch()} />}
+                {modals.signin && (
+                    <SignInModal
+                        handleClose={() => handleModalSwitch()}
+                        handleSwitch={handleModalSwitch}
+                    />
+                )}
+                {modals.signup && <SignUpModal handleClose={() => handleModalSwitch()} />}
+                {modals.user && <UserModal handleClose={() => handleModalSwitch()} />}
+                {modals.reset && <PasswordResetModal handleClose={() => handleModalSwitch()} />}
+            </AnimatePresence>
         </main>
     )
 }

@@ -7,10 +7,10 @@ interface Props {
 }
 
 const colorVariants = {
-    primary: 'text-primary border-solid border-2 border-primary',
+    primary: 'text-primary-500 border-solid border-2 border-primary-500',
     secondary: 'text-white border-solid border-2 border-white',
     success: 'text-green border-solid border-2 border-green',
-    danger: 'text-red border-solid border-2 border-red',
+    danger: 'text-red-400 border-solid border-2 border-red-400',
 }
 
 const sizeVariants = {
@@ -29,7 +29,7 @@ export const HudButton: React.FC<Props> = ({ icon, color, size, className, onCli
             ${colorVariants[color!]} ${sizeVariants[size!]} ${className}`}
             onClick={onClick}
         >
-            <i className={icon} />
+            <i className={icon + ' translate-y-[0.1rem]'} />
         </button>
     )
 }

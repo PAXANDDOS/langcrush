@@ -7,6 +7,7 @@ export default {
             width: { figureWidth: '52px' },
             boxShadow: {
                 default: '0 5px 30px 0 rgba(190, 190, 190)',
+                block: 'inset 0px -5px 0px rgba(0,0,0,0.2)',
                 button: 'inset 0px -6px 0px rgba(0,0,0,0.3)',
                 'button-active': 'inset 0px -2px rgba(0,0,0,0.3)',
                 hud: 'inset 0px -6px 0px rgba(0,0,0,0.3), 0px 4px 1px 1px rgba(0, 0, 0, 0.15)',
@@ -14,18 +15,37 @@ export default {
                 soft: '0px 0px 20px rgba(0, 0, 0, 0.15)',
             },
             fontFamily: {
-                rubik: ['Rubik', 'sans-serif'],
+                sans: ['Rubik', 'sans-serif'],
             },
             colors: {
                 dark: '#183153',
                 secondary: '#DEF1FF',
-                primary: '#8C8CED',
+                primary: {
+                    300: '#5b59cd',
+                    400: '#666ad2',
+                    450: '#676dd2',
+                    500: '#869af5',
+                },
                 'dark-blue': '#19335c',
-                pink: '#CD8CED',
+                pink: {
+                    300: '#df3fb4',
+                    400: '#CD8CED',
+                    500: '#eb5dcf',
+                },
                 yellow: '#EDED8C',
                 green: '#63e6be',
-                red: '#ED8C8C',
+                red: {
+                    300: '#fd2360',
+                    400: '#ED8C8C',
+                },
                 shadow: 'rgba(0,0,0,0.5)',
+            },
+            borderWidth: {
+                6: '6px',
+                14: '14px',
+            },
+            gridTemplateRows: {
+                footer: '200px minmax(900px, 1fr) 100px',
             },
             screens: {
                 xs: { max: '640px' },

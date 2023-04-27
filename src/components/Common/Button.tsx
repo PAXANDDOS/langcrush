@@ -23,9 +23,9 @@ export const Button: React.FC<Props> = ({ className, onClick, content }) => {
             }}
             type="button"
             className={`p-6 xl:p-8 w-full
-            font-rubik font-bold xs:text-2xl xl:text-4xl tracking-wide text-white active:text-dark
+            font-bold xs:text-2xl xl:text-4xl tracking-wide text-white active:text-dark
             shadow-button border-2 border-shadow rounded-2xl
-            bg-primary active:bg-green ${className}`}
+            bg-primary-500 active:bg-green ${className}`}
             onClick={onClick}
         >
             {content}

@@ -9,10 +9,10 @@ interface Props {
 }
 
 const colorVariants = {
-    primary: 'text-white active:text-dark-blue bg-primary active:bg-green',
+    primary: 'text-white active:text-dark-blue bg-primary-500 active:bg-green',
     secondary: 'text-dark-blue active:text-dark bg-secondary active:bg-green',
-    success: 'text-white active:text-dark-blue bg-green active:bg-primary',
-    danger: 'text-white active:text-dark-blue bg-red active:bg-green',
+    success: 'text-white active:text-dark-blue bg-green active:bg-primary-500',
+    danger: 'text-white active:text-dark-blue bg-red-400 active:bg-green',
 }
 
 const sizeVariants = {

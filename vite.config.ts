@@ -10,10 +10,9 @@ const pwaOptions: Partial<VitePWAOptions> = {
     registerType: 'autoUpdate',
     manifest: {
         lang: 'uk',
-        name: 'Langdice - Англійська граючи',
-        short_name: 'Langdice',
+        name: 'Langcrush',
         description:
-            'Langdice це гра, яка допоможе вам вивчити англійську мову. Ви можете вивчити різноманітні слова та сленг граючи.',
+            'Langcrush це гра, яка допоможе вам вивчити англійську мову. Ви можете вивчити різноманітні слова та сленг граючи.',
         categories: ['education', 'game', 'language', 'learning', 'quiz', 'vocabulary', 'words'],
         iarc_rating_id: 'Ages 3+',
         theme_color: '#DEF1FF',
