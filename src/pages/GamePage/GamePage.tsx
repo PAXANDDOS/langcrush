@@ -1,11 +1,17 @@
 import { AnimatePresence, motion as m } from 'framer-motion'
-import { useLocation } from 'wouter'
-import { useGameStore } from '../../store/game'
-
 import { useEffect, useState } from 'react'
-import { GameBlock } from '../../components/Game/GameBlock'
-import { GameHeader } from '../../components/Game/GameHeader'
-import { MenuModal } from '../../components/Game/MenuModal'
+import { useLocation } from 'wouter'
+
+import { DefeatModal } from '@components/Game/DefeatModal'
+import { GameBlock } from '@components/Game/GameBlock'
+import { GameHeader } from '@components/Game/GameHeader'
+import { MenuModal } from '@components/Game/MenuModal'
+import { VictoryModal } from '@components/Game/VictoryModal'
+import { Loading } from '@components/Loading/Loading'
+import { http } from '@helpers/http'
+import { useGameStore } from '@store/game'
+import type { Word } from 'types/Word'
+import { shallow } from 'zustand/shallow'
 
 const container = {
     hidden: { opacity: 1, scale: 0 },
@@ -21,110 +27,183 @@ const container = {
 
 export const GamePage: React.FC = () => {
     const setLocation = useLocation()[1]
-    const [gameReady, setGameReady] = useState(false)
-    const gameId = useGameStore(state => state.current)
-    const setGameId = useGameStore(state => state.setCurrent)
+    const [errorMsg, setErrorMsg] = useState<string>()
+
+    const [modeId, modeName, points, endGame] = useGameStore(
+        state => [state.modeId, state.modeName, state.score, state.endGame],
+        shallow
+    )
+
     const [menuOpen, setMenuOpen] = useState(false)
-    const [blocks, setBlocks] = useState<string[]>([
-        'Абрикос',
-        'Банан',
-        'Груша',
-        'Диня',
-        'Журавлина',
-        'Інжир',
-        'Киві',
-        'Лимон',
-        'Малина',
-        'Нектарин',
-    ])
+    const [gameReady, setGameReady] = useState(false)
+    const [turnReady, setTurnReady] = useState(false)
+    const [lives, setLives] = useState(3)
+    const [blocks, setBlocks] = useState<Word[]>()
+    const [currentWord, setCurrentWord] = useState<Word>()
+    const [score, setScore] = useState(0)
+
+    const [defeat, setDefeat] = useState(false)
+    const [victory, setVictory] = useState(false)
 
     useEffect(() => {
-        if (gameId === null) {
-            setLocation('/')
-        }
-    }, [gameId, setLocation])
+        if (modeId === 0) setLocation('/')
+    }, [modeId, setLocation])
 
     useEffect(() => {
-        setTimeout(() => {
+        if (points !== 0) setScore(points)
+    }, [modeId, setLocation])
+
+    useEffect(() => {
+        const bootGame = async () => {
+            const { status, data, error } = await http<Word[]>('get', `/categories/${modeId}/words`)
+
+            if (!status || !data) {
+                setErrorMsg(error)
+                return
+            }
+
+            setBlocks(data)
+            setCurrentWord(data[Math.floor(Math.random() * data.length)])
+
             setGameReady(true)
-        }, 100)
+            setTurnReady(true)
+        }
+        bootGame()
     }, [])
 
     const onBlockClick = (name: string, currentTarget: EventTarget & HTMLButtonElement) => {
-        currentTarget.classList.replace('border-white', 'border-green')
-        currentTarget.classList.add('z-10')
+        if (!turnReady) return
+        setTurnReady(false)
+        currentTarget.classList.add('z-50')
+        console.log(name, currentWord, blocks)
+
+        if (name === currentWord?.name) {
+            currentTarget.classList.replace('border-white', 'border-green')
+            const newBlocks = blocks?.filter(item => item.name !== name)!
+            setScore(s => s + name.length)
+
+            if (newBlocks?.length === 0) {
+                setVictory(true)
+            }
+
+            setBlocks(newBlocks)
+            setCurrentWord(newBlocks[Math.floor(Math.random() * newBlocks.length)])
+        } else {
+            currentTarget.classList.replace('border-white', 'border-red-400')
+            currentTarget.classList.add('animate-wiggle')
+            setTimeout(() => {
+                currentTarget.classList.replace('border-red-400', 'border-white')
+                currentTarget.classList.remove('animate-wiggle')
+            }, 700)
+
+            const newLives = lives - 1
+            if (newLives === 0) {
+                setDefeat(true)
+            }
+            setLives(newLives)
+        }
+        if (blocks?.length === 0) {
+            setScore(prevState => prevState + 1)
+        }
+
         setTimeout(() => {
-            setBlocks(blocks.filter(item => item !== name))
-        }, 400)
+            currentTarget.classList.remove('z-50')
+            setTurnReady(true)
+        }, 700)
     }
 
-    const onReload = () => {
-        setGameReady(false)
-        setTimeout(() => {
+    const onRestart = () => {
+        const reloadGame = async () => {
+            setTurnReady(false)
+            setGameReady(false)
+
+            const { status, data, error } = await http<Word[]>('get', `/categories/${modeId}/words`)
+
+            console.log(error)
+            if (!status || !data) {
+                setErrorMsg(error?.toString())
+                return
+            }
+
+            setBlocks(data)
+            setCurrentWord(data[Math.floor(Math.random() * data.length)])
+
+            setLives(3)
+            setScore(0)
+
+            setDefeat(false)
+            setVictory(false)
+            setMenuOpen(false)
+
             setGameReady(true)
-        }, 500)
-        setBlocks([
-            'Абрикос',
-            'Банан',
-            'Груша',
-            'Диня',
-            'Журавлина',
-            'Інжир',
-            'Киві',
-            'Лимон',
-            'Малина',
-            'Нектарин',
-        ])
+            setTurnReady(true)
+        }
+        reloadGame()
+    }
+
+    const onExit = () => {
+        endGame()
+        setLocation('/')
     }
 
     return (
         <>
-            <AnimatePresence initial={true}>
-                {gameReady || (
-                    <m.div
-                        className="bg-primary-500 w-screen h-screen absolute z-50 top-0 left-0 grid place-content-center font-bold text-2xl text-white"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.7 }}
-                    >
-                        Зачекай...
-                    </m.div>
-                )}
+            <AnimatePresence initial={true} mode="wait">
+                {gameReady || <Loading message={errorMsg} />}
             </AnimatePresence>
             {gameReady && (
                 <main className="flex flex-col gap-5 w-full h-screen py-4 xs:px-4 md:w-3/5 xl:w-1/4">
                     <GameHeader
-                        lives={3}
-                        category="ФРУКТИ"
+                        lives={lives}
+                        category={modeName}
                         onMenu={() => {
                             setMenuOpen(true)
                         }}
-                        onReload={onReload}
+                        onReload={onRestart}
                     />
-                    <div className="w-full h-full bg-white shadow-soft rounded-2xl flex flex-col rotate-180">
+                    <div className="w-full h-full bg-white shadow-soft rounded-2xl flex flex-col rotate-180 relative overflow-hidden">
                         <m.div
                             className="w-full h-fit flex flex-row flex-wrap"
                             variants={container}
                             initial="hidden"
                             animate="visible"
                         >
-                            <AnimatePresence mode="sync">
-                                {blocks.map(name => (
-                                    <GameBlock key={name} name={name} onClick={onBlockClick} />
+                            <AnimatePresence initial={true} mode="sync">
+                                {blocks!.map(block => (
+                                    <GameBlock
+                                        key={block.id}
+                                        name={block.name}
+                                        onClick={onBlockClick}
+                                    />
                                 ))}
                             </AnimatePresence>
+                            <h2 className="absolute bottom-0 left-0 rotate-180 bg-gradient-to-b from-[#869af57e] to-transparent w-full text-center py-4 font-semibold text-primary-400 text-xl">
+                                {score}
+                            </h2>
                         </m.div>
                     </div>
                     <div className="w-full h-40 flex justify-center items-center">
-                        <div className="px-5 py-3 bg-primary-500 border-4 border-secondary font-bold text-2xl text-white rounded-2xl shadow-flat">
-                            PEACH
-                        </div>
+                        <m.div
+                            initial={{ opacity: 0, y: 100 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ type: 'spring', duration: 0.5, delay: 0.7 }}
+                            className="px-5 py-3 bg-primary-500 border-4 border-secondary font-bold text-2xl text-white rounded-2xl shadow-flat"
+                        >
+                            {currentWord?.translation}
+                        </m.div>
                     </div>
                 </main>
             )}
-            <AnimatePresence>
-                {menuOpen && <MenuModal title={'ФРУКТИ'} handleClose={() => setMenuOpen(false)} />}
+            <AnimatePresence initial={false} mode="wait">
+                {menuOpen && (
+                    <MenuModal
+                        title={modeName}
+                        onExit={onExit}
+                        handleClose={() => setMenuOpen(false)}
+                    />
+                )}
+                {defeat && <DefeatModal score={score} onRestart={onRestart} onExit={onExit} />}
+                {victory && <VictoryModal score={score} onRestart={onRestart} onExit={onExit} />}
             </AnimatePresence>
         </>
     )

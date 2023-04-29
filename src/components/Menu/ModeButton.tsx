@@ -1,7 +1,10 @@
 import { motion as m } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
     name: string
+    description?: string
+    score?: number
     onClick?: () => void
 }
 
@@ -13,7 +16,9 @@ const item = {
     },
 }
 
-export const ModeButton: React.FC<Props> = ({ name, onClick }) => {
+export const ModeButton: React.FC<Props> = ({ name, description, score, onClick }) => {
+    const { t } = useTranslation('menu')
+
     return (
         <m.button
             variants={item}
@@ -28,7 +33,7 @@ export const ModeButton: React.FC<Props> = ({ name, onClick }) => {
         >
             {name}
             <br />
-            <span className="text-xs font-thin">536 points</span>
+            <span className="text-xs font-thin">{t('points', { points: score })}</span>
             <i className="fa-solid fa-apple-whole absolute text-9xl right-0 bottom-0 translate-x-3 translate-y-6 opacity-60 text-shadow"></i>
         </m.button>
     )

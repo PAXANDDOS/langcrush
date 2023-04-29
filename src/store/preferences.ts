@@ -1,14 +1,15 @@
 import { create } from 'zustand'
-import { devtools, persist } from 'zustand/middleware'
+import { PersistOptions, devtools, persist } from 'zustand/middleware'
 
-interface PreferenceState {
-    music: boolean
-    setMusic: (music: boolean) => void
-    sfx: boolean
-    setSfx: (sfx: boolean) => void
-    vibration: boolean
-    setVibration: (vibration: boolean) => void
+import type { Preferences } from 'types/Preferences'
+
+interface PreferenceState extends Preferences {
+    setMusic: (music: Preferences['music']) => void
+    setSfx: (sfx: Preferences['sfx']) => void
+    setVibration: (vibration: Preferences['vibration']) => void
 }
+
+const storage: PersistOptions<PreferenceState> = { name: 'preferences', version: 1 }
 
 export const usePreferenceStore = create<PreferenceState>()(
     devtools(
@@ -21,7 +22,7 @@ export const usePreferenceStore = create<PreferenceState>()(
                 vibration: true,
                 setVibration: vibration => set({ vibration }),
             }),
-            { name: 'preferences', version: 1 }
+            storage
         )
     )
 )

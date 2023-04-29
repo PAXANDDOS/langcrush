@@ -25,13 +25,13 @@ export const GameBlock: React.FC<Props> = ({ name, onClick }) => {
                 rotate: 180,
                 transition: { type: 'spring', damping: 10 },
             }}
-            exit={{ y: '50%', opacity: 0, transition: { duration: 0.3 } }}
+            exit={{ y: '50%', opacity: 0, transition: { duration: 0.3, delay: 0.5 } }}
             transition={{
                 duration: 0.2,
             }}
             variants={item}
             type="button"
-            className="px-5 py-2 bg-primary-500 border-4 border-white font-bold text-2xl text-white rounded-2xl"
+            className="px-5 py-2 bg-primary-500 border-4 border-white font-bold text-2xl text-white rounded-2xl disabled:opacity-50"
             onClick={({ currentTarget }) => onClick(name, currentTarget)}
         >
             {name}

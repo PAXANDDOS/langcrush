@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 import { HudButton } from './HudButton'
 
 interface Props {
@@ -8,10 +10,12 @@ interface Props {
 }
 
 export const GameHeader: React.FC<Props> = ({ lives, category, onMenu, onReload }) => {
+    const { t } = useTranslation('game')
+
     return (
         <div className="w-full grid grid-cols-6 place-items-center gap-1 bg-primary-500 rounded-3xl shadow-flat border-4 border-secondary px-4 py-3">
             <div className="text-center font-medium text-white">
-                <h4 className="text-xs text-secondary leading-3">ЖИТТЯ</h4>
+                <h4 className="text-xs text-secondary leading-3">{t('lives').toUpperCase()}</h4>
                 <p className="text-2xl leading-5">{lives}</p>
             </div>
             <h3 className="col-span-3 font-bold text-white">{category}</h3>

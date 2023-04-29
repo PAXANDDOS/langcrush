@@ -5,6 +5,10 @@ export default {
         extend: {
             gridTemplateColumns: { templateColumns: 'repeat( auto-fit, minmax(224px, 240px) )' },
             width: { figureWidth: '52px' },
+            minWidth: {
+                '1/2': '50%',
+                '2/3': '66.666667%',
+            },
             boxShadow: {
                 default: '0 5px 30px 0 rgba(190, 190, 190)',
                 block: 'inset 0px -5px 0px rgba(0,0,0,0.2)',
@@ -46,6 +50,17 @@ export default {
             },
             gridTemplateRows: {
                 footer: '200px minmax(900px, 1fr) 100px',
+            },
+            keyframes: {
+                wiggle: {
+                    // shake on the x asis
+                    '0%, 100%': { transform: 'translateX(0) rotate(180deg)' },
+                    '25%': { transform: 'translateX(-5px) rotate(180deg)' },
+                    '75%': { transform: 'translateX(5px) rotate(180deg)' },
+                },
+            },
+            animation: {
+                wiggle: 'wiggle 200ms ease-in-out infinite',
             },
             screens: {
                 xs: { max: '640px' },

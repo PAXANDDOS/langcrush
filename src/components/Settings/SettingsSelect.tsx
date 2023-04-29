@@ -1,15 +1,11 @@
 import { motion as m } from 'framer-motion'
 
-import type { Preference } from 'types/Preferences'
-
 interface Props {
-    name: Preference
-    icon: string
-    onClick: (name: Preference) => void
-    disabled?: boolean
+    title: string
+    onClick: () => void
 }
 
-export const SwitchButton: React.FC<Props> = ({ name, icon, disabled, onClick }) => {
+export const SettingsSelect: React.FC<Props> = ({ title, onClick }) => {
     return (
         <m.button
             whileHover={{ y: -2 }}
@@ -32,11 +28,14 @@ export const SwitchButton: React.FC<Props> = ({ name, icon, disabled, onClick })
             }}
             transition={{ duration: 0.1 }}
             type="button"
-            className="text-2xl bg-green px-4 py-1 rounded-3xl shadow-block active:shadow-button-active border-2 border-shadow aria-disabled:bg-red-500"
-            aria-disabled={disabled}
-            onClick={() => onClick(name)}
+            className="col-span-3 inline-flex justify-center bg-primary-500 rounded-full py-2 text-lg font-bold shadow-block active:shadow-button-active border-2 border-shadow"
+            id="menu-button"
+            aria-expanded="true"
+            aria-haspopup="true"
+            onClick={onClick}
         >
-            <i className={icon}></i>
+            {title}
+            <i className="fa-solid fa-sort-down ml-1"></i>
         </m.button>
     )
 }

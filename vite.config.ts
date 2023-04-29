@@ -1,7 +1,7 @@
 import react from '@vitejs/plugin-react-swc'
-import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import { VitePWA, VitePWAOptions } from 'vite-plugin-pwa'
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 const pwaOptions: Partial<VitePWAOptions> = {
     mode: 'development',
@@ -77,6 +77,26 @@ const pwaOptions: Partial<VitePWAOptions> = {
                     },
                 },
             },
+            {
+                urlPattern: /^https:\/\/fonts\.gstatic\.com/,
+                handler: 'CacheFirst' as const,
+                options: {
+                    cacheName: 'mockapi-responses',
+                    cacheableResponse: {
+                        statuses: [0, 200, 201, 204],
+                    },
+                },
+            },
+            {
+                urlPattern: /https:\/\/.*\.mockapi\.io/,
+                handler: 'NetworkFirst' as const,
+                options: {
+                    cacheName: 'mockapi-responses',
+                    cacheableResponse: {
+                        statuses: [0, 200, 201, 204],
+                    },
+                },
+            },
         ],
     },
     devOptions: {
@@ -92,11 +112,6 @@ export default defineConfig({
         host: true,
         port: 3000,
     },
-    plugins: [react(), VitePWA(pwaOptions)],
-    resolve: {
-        alias: {
-            '@': resolve(__dirname, 'src'),
-        },
-    },
+    plugins: [react(), VitePWA(pwaOptions), tsconfigPaths()],
     base: './',
 })

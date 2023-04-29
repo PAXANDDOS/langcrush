@@ -1,20 +1,19 @@
+import { useTranslation } from 'react-i18next'
 import { shallow } from 'zustand/shallow'
-import { usePreferenceStore } from '../../store/preferences'
 
-import { useLocation } from 'wouter'
-import { useGameStore } from '../../store/game'
-import { Modal } from '../Modal/Modal'
-import { SettingsButton } from '../Settings/SettingsButton'
-import { SwitchButton } from '../Settings/SwitchButton'
+import { Modal } from '@components/Modal/Modal'
+import { SettingsButton } from '@components/Settings/SettingsButton'
+import { SwitchButton } from '@components/Settings/SwitchButton'
+import { usePreferenceStore } from '@store/preferences'
 
 interface Props {
     title: string
+    onExit: () => void
     handleClose: () => void
 }
 
-export const MenuModal: React.FC<Props> = ({ title, handleClose }) => {
-    const setGameId = useGameStore(state => state.setCurrent)
-    const setLocation = useLocation()[1]
+export const MenuModal: React.FC<Props> = ({ title, onExit, handleClose }) => {
+    const { t } = useTranslation('game')
 
     const [music, sfx, vibration, setMusic, setSfx, setVibration] = usePreferenceStore(
         state => [
@@ -49,13 +48,7 @@ export const MenuModal: React.FC<Props> = ({ title, handleClose }) => {
                     onClick={() => setVibration(!vibration)}
                     disabled={!vibration}
                 />
-                <SettingsButton
-                    content="Exit Level"
-                    onClick={() => {
-                        setGameId(null)
-                        setLocation('/')
-                    }}
-                />
+                <SettingsButton content={t('exit')} onClick={onExit} />
             </div>
         </Modal>
     )

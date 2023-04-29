@@ -1,5 +1,6 @@
 import { motion as m } from 'framer-motion'
-import { Backdrop } from '../Backdrop/Backdrop'
+
+import { Backdrop } from '@components/Backdrop/Backdrop'
 
 interface Props {
     title: string
@@ -43,7 +44,7 @@ export const Modal: React.FC<Props> = ({ title, children, handleClose }) => {
                 exit="exit"
             >
                 <div className="-translate-y-14">
-                    <h2 className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 bg-gradient-to-b from-pink-500 to-pink-300 rounded-xl font-extrabold tracking-wide text-xl text-white py-3 text-center shadow-block">
+                    <h2 className="absolute top-0 left-1/2 -translate-x-1/2 min-w-2/3 px-3 bg-gradient-to-b from-pink-500 to-pink-300 rounded-xl font-extrabold tracking-wide text-xl text-white py-3 text-center shadow-block">
                         {title.toUpperCase()}
                     </h2>
                     <button

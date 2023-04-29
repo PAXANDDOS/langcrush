@@ -1,15 +1,17 @@
 import { AnimatePresence, motion as m } from 'framer-motion'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useLocation } from 'wouter'
 
-import { PasswordResetModal } from '../../components/Auth/PasswordResetModal'
-import { SignInModal } from '../../components/Auth/SignInModal'
-import { SignUpModal } from '../../components/Auth/SignUpModal'
-import { UserModal } from '../../components/Auth/UserModal'
-import { Button } from '../../components/Common/Button'
-import { IconButton } from '../../components/Common/IconButton'
-import { InfoModal } from '../../components/Modal/InfoModal'
-import { SettingsModal } from '../../components/Settings/SettingsModal'
+import { PasswordResetModal } from '@components/Auth/PasswordResetModal'
+import { SignInModal } from '@components/Auth/SignInModal'
+import { SignUpModal } from '@components/Auth/SignUpModal'
+import { UserModal } from '@components/Auth/UserModal'
+import { Button } from '@components/Common/Button'
+import { IconButton } from '@components/Common/IconButton'
+import { InfoModal } from '@components/Modal/InfoModal'
+import { SettingsModal } from '@components/Settings/SettingsModal'
+import type { HomeModal } from 'types/Home'
 
 const modalsInitial = {
     settings: false,
@@ -21,12 +23,11 @@ const modalsInitial = {
 }
 
 export const HomePage: React.FC = () => {
-    const [location, setLocation] = useLocation()
+    const { t } = useTranslation('home')
+    const setLocation = useLocation()[1]
     const [modals, setModals] = useState(modalsInitial)
 
-    const handleModalSwitch = (
-        modal?: 'settings' | 'info' | 'user' | 'signin' | 'signup' | 'reset'
-    ) => {
+    const handleModalSwitch = (modal?: HomeModal) => {
         setModals(modalsInitial)
         modal && setModals(prevState => ({ ...prevState, [modal]: !prevState[modal] }))
     }
@@ -50,7 +51,7 @@ export const HomePage: React.FC = () => {
             </m.h1>
             <div className="grid grid-cols-4 gap-4">
                 <Button
-                    content="ГРАТИ"
+                    content={t('play').toUpperCase()}
                     onClick={() => setLocation('/menu')}
                     className="col-span-4"
                 />
@@ -71,7 +72,7 @@ export const HomePage: React.FC = () => {
                     onClick={() => handleModalSwitch('settings')}
                 />
             </div>
-            <AnimatePresence>
+            <AnimatePresence initial={false} mode="wait">
                 {modals.settings && (
                     <SettingsModal
                         handleClose={() => handleModalSwitch()}

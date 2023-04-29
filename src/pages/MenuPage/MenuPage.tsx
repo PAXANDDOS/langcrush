@@ -1,10 +1,14 @@
 import { motion as m } from 'framer-motion'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useLocation } from 'wouter'
-import { useGameStore } from '../../store/game'
 
-import { IconButton } from '../../components/Common/IconButton'
-import { ModeButton } from '../../components/Menu/ModeButton'
+import { IconButton } from '@components/Common/IconButton'
+import { Loading } from '@components/Loading/Loading'
+import { ModeButton } from '@components/Menu/ModeButton'
+import { useCategories } from '@hooks/useCategories'
+import { useGameStore } from '@store/game'
+import { shallow } from 'zustand/shallow'
 
 const container = {
     hidden: { opacity: 1, scale: 0 },
@@ -19,15 +23,19 @@ const container = {
 }
 
 export const MenuPage: React.FC = () => {
+    const { t } = useTranslation('menu')
     const setLocation = useLocation()[1]
-    const setCurrent = useGameStore(state => state.setCurrent)
-    const currentGame = useGameStore(state => state.current)
+    const { data, isLoading, error } = useCategories()
+    const [modeId, startGame] = useGameStore(state => [state.modeId, state.startGame], shallow)
 
     useEffect(() => {
-        if (currentGame !== null) {
+        if (modeId !== 0) {
             setLocation(`/game`)
         }
-    }, [currentGame, setLocation])
+    }, [modeId, setLocation])
+
+    if (isLoading) return <Loading />
+    if (error) return <Loading message={error} />
 
     return (
         <m.main
@@ -39,7 +47,8 @@ export const MenuPage: React.FC = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
             >
-                ОБЕРИ <span className="text-red-400">КАТЕГОРІЮ</span>
+                {t('title.1').toUpperCase()}{' '}
+                <span className="text-red-400">{t('title.2').toUpperCase()}</span>
             </m.h1>
             <m.ul
                 className="w-full h-full flex flex-col gap-4 overflow-y-auto row-span-6 no-scrollbar"
@@ -47,8 +56,14 @@ export const MenuPage: React.FC = () => {
                 initial="hidden"
                 animate="visible"
             >
-                {[0, 1, 2, 3, 4, 5].map(index => (
-                    <ModeButton name="Fruits" key={index} onClick={() => setCurrent(index)} />
+                {data.map(category => (
+                    <ModeButton
+                        key={category.id}
+                        name={category.name}
+                        description={category.description}
+                        score={category.points}
+                        onClick={() => startGame(category.id, category.name, category.points || 0)}
+                    />
                 ))}
             </m.ul>
             <div>

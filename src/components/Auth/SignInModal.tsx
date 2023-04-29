@@ -1,22 +1,26 @@
 import { useState } from 'react'
-import { Input } from '../Common/Input'
-import { InputSubmit } from '../Common/InputSubmit'
-import { Modal } from '../Modal/Modal'
+import { useTranslation } from 'react-i18next'
+
+import { Input } from '@components/Common/Input'
+import { InputSubmit } from '@components/Common/InputSubmit'
+import { Modal } from '@components/Modal/Modal'
+import type { HomeModal } from 'types/Home'
 
 interface Props {
     handleClose: () => void
-    handleSwitch: (name: 'settings' | 'user' | 'info' | 'signin' | 'signup' | 'reset') => void
+    handleSwitch: (name: HomeModal) => void
 }
 
 export const SignInModal: React.FC<Props> = ({ handleClose, handleSwitch }) => {
+    const { t } = useTranslation('auth')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     return (
-        <Modal title="SIGN IN" handleClose={handleClose}>
+        <Modal title={t('signin')} handleClose={handleClose}>
             <form className="flex flex-col gap-4 pt-4">
                 <Input
-                    title="Your email"
+                    title={t('email.title')}
                     name="email"
                     value={email}
                     type="email"
@@ -24,7 +28,7 @@ export const SignInModal: React.FC<Props> = ({ handleClose, handleSwitch }) => {
                     required
                 />
                 <Input
-                    title="Password"
+                    title={t('password.title')}
                     name="password"
                     value={password}
                     type="password"
@@ -35,16 +39,16 @@ export const SignInModal: React.FC<Props> = ({ handleClose, handleSwitch }) => {
                     className="text-sm font-medium text-light hover:underline"
                     onClick={() => handleSwitch('reset')}
                 >
-                    Forgot password?
+                    {t('password.forgot')}
                 </button>
-                <InputSubmit title="Sign in" />
+                <InputSubmit title={t('signin')} />
                 <p className="text-sm font-light text-gray-300">
-                    Dont have an account yet?{' '}
+                    {t('noaccount') + ' '}
                     <button
                         className="font-medium text-light hover:underline"
                         onClick={() => handleSwitch('signup')}
                     >
-                        Sign up
+                        {t('signup')}
                     </button>
                 </p>
             </form>
