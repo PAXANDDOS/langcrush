@@ -1,4 +1,6 @@
+import { useSound } from '@hooks/useSound'
 import { motion as m } from 'framer-motion'
+import { Sound } from 'types/Sound'
 
 interface Props {
     icon: string
@@ -24,6 +26,9 @@ const sizeVariants = {
 }
 
 export const IconButton: React.FC<Props> = ({ icon, color, size, className, onClick }) => {
+    const [playDown] = useSound(Sound.PopDown)
+    const [playUp] = useSound(Sound.PopUp)
+
     return (
         <m.button
             whileHover={{ y: -2 }}
@@ -42,6 +47,8 @@ export const IconButton: React.FC<Props> = ({ icon, color, size, className, onCl
             className={`shadow-button border-2 border-shadow
             ${colorVariants[color!]} ${sizeVariants[size!]} ${className}`}
             onClick={onClick}
+            onMouseDown={() => playDown()}
+            onMouseUp={() => playUp()}
         >
             <i className={icon} />
         </m.button>

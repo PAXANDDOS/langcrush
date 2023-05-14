@@ -1,6 +1,8 @@
 import { motion as m } from 'framer-motion'
 
 import { Backdrop } from '@components/Backdrop/Backdrop'
+import { useSound } from '@hooks/useSound'
+import { Sound } from 'types/Sound'
 
 interface Props {
     title: string
@@ -33,6 +35,9 @@ const dropIn = {
 }
 
 export const Modal: React.FC<Props> = ({ title, children, handleClose }) => {
+    const [playDown] = useSound(Sound.PopDown)
+    const [playUp] = useSound(Sound.PopUp)
+
     return (
         <Backdrop onClick={handleClose}>
             <m.div
@@ -51,6 +56,8 @@ export const Modal: React.FC<Props> = ({ title, children, handleClose }) => {
                         type="button"
                         className="absolute top-0 right-0 translate-x-9 translate-y-3 text-2xl leading-3 text-red-300 bg-white rounded-full border-8 border-primary-500"
                         onClick={handleClose}
+                        onMouseDown={() => playDown()}
+                        onMouseUp={() => playUp()}
                     >
                         <i className="fa-solid fa-circle-xmark"></i>
                     </button>

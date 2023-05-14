@@ -61,8 +61,8 @@ export const MenuPage: React.FC = () => {
                         key={category.id}
                         name={category.name}
                         description={category.description}
-                        score={category.points}
-                        onClick={() => startGame(category.id, category.name, category.points || 0)}
+                        score={category.score}
+                        onClick={() => startGame(category.id, category.name, category.score || 0)}
                     />
                 ))}
             </m.ul>

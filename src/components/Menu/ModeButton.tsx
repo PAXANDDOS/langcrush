@@ -1,6 +1,9 @@
 import { motion as m } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 
+import { useSound } from '@hooks/useSound'
+import { Sound } from 'types/Sound'
+
 interface Props {
     name: string
     description?: string
@@ -18,6 +21,8 @@ const item = {
 
 export const ModeButton: React.FC<Props> = ({ name, description, score, onClick }) => {
     const { t } = useTranslation('menu')
+    const [playDown] = useSound(Sound.PopDown)
+    const [playUp] = useSound(Sound.PopUp)
 
     return (
         <m.button
@@ -30,6 +35,8 @@ export const ModeButton: React.FC<Props> = ({ name, description, score, onClick 
             shadow-button border-2 border-shadow rounded-2xl
             bg-primary-500 active:bg-green relative overflow-x-clip"
             onClick={onClick}
+            onMouseDown={() => playDown()}
+            onMouseUp={() => playUp()}
         >
             {name}
             <br />

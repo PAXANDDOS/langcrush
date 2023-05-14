@@ -1,3 +1,6 @@
+import { useSound } from '@hooks/useSound'
+import { Sound } from 'types/Sound'
+
 interface Props {
     icon: string
     className?: string
@@ -22,12 +25,17 @@ const sizeVariants = {
 }
 
 export const HudButton: React.FC<Props> = ({ icon, color, size, className, onClick }) => {
+    const [playDown] = useSound(Sound.PopDown)
+    const [playUp] = useSound(Sound.PopUp)
+
     return (
         <button
             type="button"
             className={`active:text-dark active:border-dark
             ${colorVariants[color!]} ${sizeVariants[size!]} ${className}`}
             onClick={onClick}
+            onMouseDown={() => playDown()}
+            onMouseUp={() => playUp()}
         >
             <i className={icon + ' translate-y-[0.1rem]'} />
         </button>

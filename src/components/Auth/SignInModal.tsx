@@ -36,16 +36,16 @@ export const SignInModal: React.FC<Props> = ({ handleClose, handleSwitch }) => {
                     required
                 />
                 <button
-                    className="text-sm font-medium text-light hover:underline"
+                    className="text-sm font-medium text-secondary hover:underline"
                     onClick={() => handleSwitch('reset')}
                 >
                     {t('password.forgot')}
                 </button>
                 <InputSubmit title={t('signin')} />
-                <p className="text-sm font-light text-gray-300">
+                <p className="text-sm font-secondary text-gray-300">
                     {t('noaccount') + ' '}
                     <button
-                        className="font-medium text-light hover:underline"
+                        className="font-medium text-secondary hover:underline"
                         onClick={() => handleSwitch('signup')}
                     >
                         {t('signup')}

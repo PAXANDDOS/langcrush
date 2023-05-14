@@ -1,6 +1,8 @@
 import { motion as m } from 'framer-motion'
 
+import { useSound } from '@hooks/useSound'
 import type { Preference } from 'types/Preferences'
+import { Sound } from 'types/Sound'
 
 interface Props {
     name: Preference
@@ -10,6 +12,9 @@ interface Props {
 }
 
 export const SwitchButton: React.FC<Props> = ({ name, icon, disabled, onClick }) => {
+    const [playDown] = useSound(Sound.PopDown)
+    const [playUp] = useSound(Sound.PopUp)
+
     return (
         <m.button
             whileHover={{ y: -2 }}
@@ -35,6 +40,8 @@ export const SwitchButton: React.FC<Props> = ({ name, icon, disabled, onClick })
             className="text-2xl bg-green px-4 py-1 rounded-3xl shadow-block active:shadow-button-active border-2 border-shadow aria-disabled:bg-red-500"
             aria-disabled={disabled}
             onClick={() => onClick(name)}
+            onMouseDown={() => playDown()}
+            onMouseUp={() => playUp()}
         >
             <i className={icon}></i>
         </m.button>

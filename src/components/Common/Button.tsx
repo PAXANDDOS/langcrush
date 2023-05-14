@@ -1,5 +1,8 @@
 import { motion as m } from 'framer-motion'
 
+import { useSound } from '@hooks/useSound'
+import { Sound } from 'types/Sound'
+
 interface Props {
     content: string | React.ReactNode
     className?: string
@@ -7,6 +10,9 @@ interface Props {
 }
 
 export const Button: React.FC<Props> = ({ className, onClick, content }) => {
+    const [playDown] = useSound(Sound.PopDown)
+    const [playUp] = useSound(Sound.PopUp)
+
     return (
         <m.button
             whileHover={{ y: -2 }}
@@ -27,6 +33,8 @@ export const Button: React.FC<Props> = ({ className, onClick, content }) => {
             shadow-button border-2 border-shadow rounded-2xl
             bg-primary-500 active:bg-green ${className}`}
             onClick={onClick}
+            onMouseDown={() => playDown()}
+            onMouseUp={() => playUp()}
         >
             {content}
         </m.button>

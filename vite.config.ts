@@ -4,7 +4,6 @@ import { VitePWA, VitePWAOptions } from 'vite-plugin-pwa'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
 const pwaOptions: Partial<VitePWAOptions> = {
-    mode: 'development',
     base: '/',
     includeAssets: ['favicon.svg', 'favicon.png', 'robots.txt', 'apple-touch-icon.png'],
     registerType: 'autoUpdate',
@@ -81,9 +80,9 @@ const pwaOptions: Partial<VitePWAOptions> = {
                 urlPattern: /^https:\/\/fonts\.gstatic\.com/,
                 handler: 'CacheFirst' as const,
                 options: {
-                    cacheName: 'mockapi-responses',
+                    cacheName: 'google-fonts',
                     cacheableResponse: {
-                        statuses: [0, 200, 201, 204],
+                        statuses: [0, 200],
                     },
                 },
             },

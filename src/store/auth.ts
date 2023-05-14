@@ -1,8 +1,9 @@
 import { create } from 'zustand'
 import { PersistOptions, devtools, persist } from 'zustand/middleware'
+import type { User } from 'types/User'
 
-interface AuthState {
-    token: string | null
+interface AuthState extends User {
+    token: string
     setToken: (token: string | null) => void
 }
 
@@ -12,8 +13,10 @@ export const useAuthStore = create<AuthState>()(
     devtools(
         persist(
             set => ({
-                token: null,
-                setToken: token => set({ token: token }),
+                name: '',
+                email: '',
+                token: '',
+                setToken: token => set({ token: token || '' }),
             }),
             storage
         )

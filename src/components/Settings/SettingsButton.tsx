@@ -1,11 +1,17 @@
 import { motion as m } from 'framer-motion'
 
+import { useSound } from '@hooks/useSound'
+import { Sound } from 'types/Sound'
+
 interface Props {
     content: string
     onClick: () => void
 }
 
 export const SettingsButton: React.FC<Props> = ({ content, onClick }) => {
+    const [playDown] = useSound(Sound.PopDown)
+    const [playUp] = useSound(Sound.PopUp)
+
     return (
         <m.button
             whileHover={{ y: -2 }}
@@ -30,6 +36,8 @@ export const SettingsButton: React.FC<Props> = ({ content, onClick }) => {
             type="button"
             className="col-span-3 bg-primary-500 rounded-full py-2 text-lg font-bold shadow-block active:shadow-button-active border-2 border-shadow"
             onClick={onClick}
+            onMouseDown={() => playDown()}
+            onMouseUp={() => playUp()}
         >
             {content}
         </m.button>

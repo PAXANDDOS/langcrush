@@ -1,11 +1,17 @@
 import { motion as m } from 'framer-motion'
 
+import { useSound } from '@hooks/useSound'
+import { Sound } from 'types/Sound'
+
 interface Props {
     title: string
     onClick: () => void
 }
 
 export const SettingsSelect: React.FC<Props> = ({ title, onClick }) => {
+    const [playDown] = useSound(Sound.PopDown)
+    const [playUp] = useSound(Sound.PopUp)
+
     return (
         <m.button
             whileHover={{ y: -2 }}
@@ -33,6 +39,8 @@ export const SettingsSelect: React.FC<Props> = ({ title, onClick }) => {
             aria-expanded="true"
             aria-haspopup="true"
             onClick={onClick}
+            onMouseDown={() => playDown()}
+            onMouseUp={() => playUp()}
         >
             {title}
             <i className="fa-solid fa-sort-down ml-1"></i>

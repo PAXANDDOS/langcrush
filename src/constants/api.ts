@@ -1,0 +1,7 @@
+export const AUTH_LOGIN = '/login'
+export const AUTH_REGISTER = '/register'
+export const AUTH_PASSWORD_RESET = '/password-reset'
+export const USERS = '/users'
+export const CATEGORIES = '/categories'
+export const STATS = '/words'
+export const WORDS = '/stats'

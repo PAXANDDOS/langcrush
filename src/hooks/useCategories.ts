@@ -1,4 +1,4 @@
-import { fetcher } from '@constants/fetcher'
+import { fetcher } from '@helpers/fetcher'
 import useSWRImmutable from 'swr/immutable'
 import type { Category } from 'types/Category'
 
