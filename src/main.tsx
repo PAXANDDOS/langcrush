@@ -18,7 +18,6 @@ const App: React.FC = () => {
     const [audio] = useMusic()
 
     useEffect(() => {
-        console.log(location)
         switch (location) {
             case pages.HOME_PAGE:
                 audio?.volume(0.2)

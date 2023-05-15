@@ -11,7 +11,7 @@ import { Button } from '@components/Common/Button'
 import { IconButton } from '@components/Common/IconButton'
 import { InfoModal } from '@components/Modal/InfoModal'
 import { SettingsModal } from '@components/Settings/SettingsModal'
-import type { HomeModal } from 'types/Home'
+import { HomeModals } from 'types/Home'
 
 const modalsInitial = {
     settings: false,
@@ -27,7 +27,7 @@ export const HomePage: React.FC = () => {
     const setLocation = useLocation()[1]
     const [modals, setModals] = useState(modalsInitial)
 
-    const handleModalSwitch = (modal?: HomeModal) => {
+    const handleModalSwitch = (modal?: HomeModals) => {
         setModals(modalsInitial)
         modal && setModals(prevState => ({ ...prevState, [modal]: !prevState[modal] }))
     }
@@ -59,17 +59,17 @@ export const HomePage: React.FC = () => {
                     icon="fa-solid fa-right-to-bracket"
                     color="secondary"
                     className="col-span-2"
-                    onClick={() => handleModalSwitch('signin')}
+                    onClick={() => handleModalSwitch(HomeModals.Signin)}
                 />
                 <IconButton
                     icon="fa-solid fa-circle-info"
                     color="secondary"
-                    onClick={() => handleModalSwitch('info')}
+                    onClick={() => handleModalSwitch(HomeModals.Info)}
                 />
                 <IconButton
                     icon="fa-solid fa-gear"
                     color="secondary"
-                    onClick={() => handleModalSwitch('settings')}
+                    onClick={() => handleModalSwitch(HomeModals.Settings)}
                 />
             </div>
             <AnimatePresence initial={false} mode="wait">

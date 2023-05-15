@@ -13,7 +13,7 @@ interface Props {
 
 export const SwitchButton: React.FC<Props> = ({ name, icon, disabled, onClick }) => {
     const [playDown] = useSound(Sound.PopDown)
-    const [playUp] = useSound(Sound.PopUp)
+    const [playUp] = useSound(Sound.PopUpOn)
 
     return (
         <m.button

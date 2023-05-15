@@ -27,7 +27,7 @@ const sizeVariants = {
 
 export const IconButton: React.FC<Props> = ({ icon, color, size, className, onClick }) => {
     const [playDown] = useSound(Sound.PopDown)
-    const [playUp] = useSound(Sound.PopUp)
+    const [playUp] = useSound(Sound.PopUpOn)
 
     return (
         <m.button

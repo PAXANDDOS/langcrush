@@ -35,11 +35,16 @@ const dropIn = {
 }
 
 export const Modal: React.FC<Props> = ({ title, children, handleClose }) => {
-    const [playDown] = useSound(Sound.PopDown)
-    const [playUp] = useSound(Sound.PopUp)
+    const [playDown] = useSound(Sound.PopUpOff)
+    const [playUp] = useSound(Sound.PopDown)
 
     return (
-        <Backdrop onClick={handleClose}>
+        <Backdrop
+            onClick={() => {
+                playDown()
+                handleClose()
+            }}
+        >
             <m.div
                 onClick={e => e.stopPropagation()}
                 className="w-full md:w-3/5 xl:w-1/4 content px-4 py-6 border-14 border-primary-500 text-white bg-gradient-to-b from-primary-450 to-primary-300 rounded-3xl flex flex-col"
@@ -56,8 +61,8 @@ export const Modal: React.FC<Props> = ({ title, children, handleClose }) => {
                         type="button"
                         className="absolute top-0 right-0 translate-x-9 translate-y-3 text-2xl leading-3 text-red-300 bg-white rounded-full border-8 border-primary-500"
                         onClick={handleClose}
-                        onMouseDown={() => playDown()}
-                        onMouseUp={() => playUp()}
+                        onMouseDown={() => playUp()}
+                        onMouseUp={() => playDown()}
                     >
                         <i className="fa-solid fa-circle-xmark"></i>
                     </button>

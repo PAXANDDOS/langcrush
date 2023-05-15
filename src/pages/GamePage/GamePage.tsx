@@ -9,7 +9,9 @@ import { MenuModal } from '@components/Game/MenuModal'
 import { VictoryModal } from '@components/Game/VictoryModal'
 import { Loading } from '@components/Loading/Loading'
 import { http } from '@helpers/http'
+import { useSound } from '@hooks/useSound'
 import { useGameStore } from '@store/game'
+import { Sound } from 'types/Sound'
 import type { Word } from 'types/Word'
 import { shallow } from 'zustand/shallow'
 
@@ -33,6 +35,8 @@ export const GamePage: React.FC = () => {
         state => [state.modeId, state.modeName, state.score, state.endGame],
         shallow
     )
+    const [playSuccess] = useSound(Sound.PopX)
+    const [playFail] = useSound(Sound.Bing)
 
     const [menuOpen, setMenuOpen] = useState(false)
     const [gameReady, setGameReady] = useState(false)
@@ -75,10 +79,10 @@ export const GamePage: React.FC = () => {
         if (!turnReady) return
         setTurnReady(false)
         currentTarget.classList.add('z-50')
-        console.log(name, currentWord, blocks)
 
         if (name === currentWord?.name) {
             currentTarget.classList.replace('border-white', 'border-green')
+            playSuccess()
             const newBlocks = blocks?.filter(item => item.name !== name)!
             setScore(s => s + name.length)
 
@@ -91,6 +95,7 @@ export const GamePage: React.FC = () => {
         } else {
             currentTarget.classList.replace('border-white', 'border-red-400')
             currentTarget.classList.add('animate-wiggle')
+            playFail()
             setTimeout(() => {
                 currentTarget.classList.replace('border-red-400', 'border-white')
                 currentTarget.classList.remove('animate-wiggle')
@@ -119,7 +124,6 @@ export const GamePage: React.FC = () => {
 
             const { status, data, error } = await http<Word[]>('get', `/categories/${modeId}/words`)
 
-            console.log(error)
             if (!status || !data) {
                 setErrorMsg(error?.toString())
                 return

@@ -5,14 +5,14 @@ import { shallow } from 'zustand/shallow'
 
 import { Modal } from '@components/Modal/Modal'
 import { usePreferenceStore } from '@store/preferences'
-import type { HomeModal } from 'types/Home'
+import { HomeModals } from 'types/Home'
 import { SettingsButton } from './SettingsButton'
 import { SettingsSelect } from './SettingsSelect'
 import { SwitchButton } from './SwitchButton'
 
 interface Props {
     handleClose: () => void
-    handleSwitch: (name: HomeModal) => void
+    handleSwitch: (name: HomeModals) => void
 }
 
 export const SettingsModal: React.FC<Props> = ({ handleClose, handleSwitch }) => {
@@ -101,8 +101,14 @@ export const SettingsModal: React.FC<Props> = ({ handleClose, handleSwitch }) =>
                         </m.ul>
                     )}
                 </AnimatePresence>
-                <SettingsButton content={t('connect')} onClick={() => handleSwitch('signin')} />
-                <SettingsButton content={t('credits')} onClick={() => handleSwitch('info')} />
+                <SettingsButton
+                    content={t('connect')}
+                    onClick={() => handleSwitch(HomeModals.Signin)}
+                />
+                <SettingsButton
+                    content={t('credits')}
+                    onClick={() => handleSwitch(HomeModals.Info)}
+                />
                 <SettingsButton content={t('terms')} onClick={() => null} />
                 <SettingsButton content={t('erase')} onClick={() => null} />
             </div>

@@ -1,1 +1,8 @@
-export type HomeModal = 'settings' | 'info' | 'user' | 'signin' | 'signup' | 'reset'
+export enum HomeModals {
+    Settings = 'settings',
+    Info = 'info',
+    User = 'user',
+    Signin = 'signin',
+    Signup = 'signup',
+    Reset = 'reset',
+}

@@ -22,7 +22,7 @@ const item = {
 export const ModeButton: React.FC<Props> = ({ name, description, score, onClick }) => {
     const { t } = useTranslation('menu')
     const [playDown] = useSound(Sound.PopDown)
-    const [playUp] = useSound(Sound.PopUp)
+    const [playUp] = useSound(Sound.PopUpOn)
 
     return (
         <m.button

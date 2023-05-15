@@ -26,7 +26,7 @@ const sizeVariants = {
 
 export const HudButton: React.FC<Props> = ({ icon, color, size, className, onClick }) => {
     const [playDown] = useSound(Sound.PopDown)
-    const [playUp] = useSound(Sound.PopUp)
+    const [playUp] = useSound(Sound.PopUpOn)
 
     return (
         <button

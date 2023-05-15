@@ -1,4 +1,6 @@
+import { useSound } from '@hooks/useSound'
 import { motion as m } from 'framer-motion'
+import { Sound } from 'types/Sound'
 
 interface Props {
     name: string
@@ -14,6 +16,8 @@ const item = {
 }
 
 export const GameBlock: React.FC<Props> = ({ name, onClick }) => {
+    const [playDown] = useSound(Sound.PopUpOn)
+
     return (
         <m.button
             whileHover={{ y: -2 }}
@@ -33,6 +37,7 @@ export const GameBlock: React.FC<Props> = ({ name, onClick }) => {
             type="button"
             className="px-5 py-2 bg-primary-500 border-4 border-white font-bold text-2xl text-white rounded-2xl disabled:opacity-50"
             onClick={({ currentTarget }) => onClick(name, currentTarget)}
+            onMouseDown={() => playDown()}
         >
             {name}
         </m.button>

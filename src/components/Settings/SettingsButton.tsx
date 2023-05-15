@@ -10,7 +10,7 @@ interface Props {
 
 export const SettingsButton: React.FC<Props> = ({ content, onClick }) => {
     const [playDown] = useSound(Sound.PopDown)
-    const [playUp] = useSound(Sound.PopUp)
+    const [playUp] = useSound(Sound.PopUpOn)
 
     return (
         <m.button

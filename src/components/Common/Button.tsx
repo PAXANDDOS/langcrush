@@ -11,7 +11,7 @@ interface Props {
 
 export const Button: React.FC<Props> = ({ className, onClick, content }) => {
     const [playDown] = useSound(Sound.PopDown)
-    const [playUp] = useSound(Sound.PopUp)
+    const [playUp] = useSound(Sound.PopUpOn)
 
     return (
         <m.button

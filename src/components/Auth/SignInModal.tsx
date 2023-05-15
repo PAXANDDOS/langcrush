@@ -1,20 +1,48 @@
-import { useState } from 'react'
+import { useReducer } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Input } from '@components/Common/Input'
 import { InputSubmit } from '@components/Common/InputSubmit'
 import { Modal } from '@components/Modal/Modal'
-import type { HomeModal } from 'types/Home'
+import { HomeModals } from 'types/Home'
 
 interface Props {
     handleClose: () => void
-    handleSwitch: (name: HomeModal) => void
+    handleSwitch: (name: HomeModals) => void
+}
+
+interface State {
+    email: string
+    password: string
+}
+
+type Action = {
+    type: 'setEmail' | 'setPassword'
+    payload: string
+}
+
+const reducer = (state: State, action: Action): State => {
+    switch (action.type) {
+        case 'setEmail':
+            return { ...state, email: action.payload.slice(0, 32) }
+        case 'setPassword':
+            return { ...state, password: action.payload.slice(0, 64) }
+        default:
+            return state
+    }
 }
 
 export const SignInModal: React.FC<Props> = ({ handleClose, handleSwitch }) => {
     const { t } = useTranslation('auth')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [state, dispatch] = useReducer(reducer, { email: '', password: '' })
+
+    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch({ type: 'setEmail', payload: event.target.value })
+    }
+
+    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch({ type: 'setPassword', payload: event.target.value })
+    }
 
     return (
         <Modal title={t('signin')} handleClose={handleClose}>
@@ -22,22 +50,24 @@ export const SignInModal: React.FC<Props> = ({ handleClose, handleSwitch }) => {
                 <Input
                     title={t('email.title')}
                     name="email"
-                    value={email}
+                    value={state.email}
                     type="email"
                     placeholder="name@game.com"
+                    onChange={handleEmailChange}
                     required
                 />
                 <Input
                     title={t('password.title')}
                     name="password"
-                    value={password}
+                    value={state.password}
                     type="password"
                     placeholder="••••••••"
+                    onChange={handlePasswordChange}
                     required
                 />
                 <button
                     className="text-sm font-medium text-secondary hover:underline"
-                    onClick={() => handleSwitch('reset')}
+                    onClick={() => handleSwitch(HomeModals.Reset)}
                 >
                     {t('password.forgot')}
                 </button>
@@ -46,7 +76,7 @@ export const SignInModal: React.FC<Props> = ({ handleClose, handleSwitch }) => {
                     {t('noaccount') + ' '}
                     <button
                         className="font-medium text-secondary hover:underline"
-                        onClick={() => handleSwitch('signup')}
+                        onClick={() => handleSwitch(HomeModals.Signup)}
                     >
                         {t('signup')}
                     </button>
