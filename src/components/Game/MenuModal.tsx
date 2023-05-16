@@ -5,14 +5,14 @@ import { Modal } from '@components/Modal/Modal'
 import { SettingsButton } from '@components/Settings/SettingsButton'
 import { SwitchButton } from '@components/Settings/SwitchButton'
 import { usePreferenceStore } from '@store/preferences'
+import type { ModalProps } from 'types/Modal'
 
-interface Props {
+interface Props extends ModalProps {
     title: string
     onExit: () => void
-    handleClose: () => void
 }
 
-export const MenuModal: React.FC<Props> = ({ title, onExit, handleClose }) => {
+export const MenuModal: React.FC<Props> = ({ open, title, onClose, onExit }) => {
     const { t } = useTranslation('game')
 
     const [music, sfx, vibration, setMusic, setSfx, setVibration] = usePreferenceStore(
@@ -28,7 +28,7 @@ export const MenuModal: React.FC<Props> = ({ title, onExit, handleClose }) => {
     )
 
     return (
-        <Modal title={title} handleClose={handleClose}>
+        <Modal open={open} title={title} onClose={onClose}>
             <div className="grid grid-cols-3 gap-3 gap-x-2 px-6 pt-2">
                 <SwitchButton
                     name="music"

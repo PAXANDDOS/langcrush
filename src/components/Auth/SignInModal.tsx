@@ -4,10 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { Input } from '@components/Common/Input'
 import { InputSubmit } from '@components/Common/InputSubmit'
 import { Modal } from '@components/Modal/Modal'
-import { HomeModals } from 'types/Home'
+import { HomeModals, ModalProps } from 'types/Modal'
 
-interface Props {
-    handleClose: () => void
+interface Props extends ModalProps {
     handleSwitch: (name: HomeModals) => void
 }
 
@@ -32,8 +31,8 @@ const reducer = (state: State, action: Action): State => {
     }
 }
 
-export const SignInModal: React.FC<Props> = ({ handleClose, handleSwitch }) => {
-    const { t } = useTranslation('auth')
+export const SignInModal: React.FC<Props> = ({ open, onClose, handleSwitch }) => {
+    const { t } = useTranslation('home')
     const [state, dispatch] = useReducer(reducer, { email: '', password: '' })
 
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,10 +44,10 @@ export const SignInModal: React.FC<Props> = ({ handleClose, handleSwitch }) => {
     }
 
     return (
-        <Modal title={t('signin')} handleClose={handleClose}>
+        <Modal open={open} title={t('auth.signin')} onClose={onClose}>
             <form className="flex flex-col gap-4 pt-4">
                 <Input
-                    title={t('email.title')}
+                    title={t('auth.email.title')}
                     name="email"
                     value={state.email}
                     type="email"
@@ -57,7 +56,7 @@ export const SignInModal: React.FC<Props> = ({ handleClose, handleSwitch }) => {
                     required
                 />
                 <Input
-                    title={t('password.title')}
+                    title={t('auth.password.title')}
                     name="password"
                     value={state.password}
                     type="password"
@@ -69,16 +68,16 @@ export const SignInModal: React.FC<Props> = ({ handleClose, handleSwitch }) => {
                     className="text-sm font-medium text-secondary hover:underline"
                     onClick={() => handleSwitch(HomeModals.Reset)}
                 >
-                    {t('password.forgot')}
+                    {t('auth.password.forgot')}
                 </button>
-                <InputSubmit title={t('signin')} />
+                <InputSubmit title={t('auth.signin')} />
                 <p className="text-sm font-secondary text-gray-300">
-                    {t('noaccount') + ' '}
+                    {t('auth.noaccount') + ' '}
                     <button
                         className="font-medium text-secondary hover:underline"
                         onClick={() => handleSwitch(HomeModals.Signup)}
                     >
-                        {t('signup')}
+                        {t('auth.signup')}
                     </button>
                 </p>
             </form>

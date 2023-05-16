@@ -2,12 +2,12 @@ import { motion as m } from 'framer-motion'
 
 import { Backdrop } from '@components/Backdrop/Backdrop'
 import { useSound } from '@hooks/useSound'
+import type { ModalProps } from 'types/Modal'
 import { Sound } from 'types/Sound'
 
-interface Props {
+interface Props extends ModalProps {
     title: string
     children: React.ReactNode
-    handleClose: () => void
 }
 
 const dropIn = {
@@ -34,15 +34,17 @@ const dropIn = {
     },
 }
 
-export const Modal: React.FC<Props> = ({ title, children, handleClose }) => {
+export const Modal: React.FC<Props> = ({ open, title, children, onClose }) => {
     const [playDown] = useSound(Sound.PopUpOff)
     const [playUp] = useSound(Sound.PopDown)
+
+    if (!open) return null
 
     return (
         <Backdrop
             onClick={() => {
                 playDown()
-                handleClose()
+                onClose()
             }}
         >
             <m.div
@@ -60,7 +62,7 @@ export const Modal: React.FC<Props> = ({ title, children, handleClose }) => {
                     <button
                         type="button"
                         className="absolute top-0 right-0 translate-x-9 translate-y-3 text-2xl leading-3 text-red-300 bg-white rounded-full border-8 border-primary-500"
-                        onClick={handleClose}
+                        onClick={onClose}
                         onMouseDown={() => playUp()}
                         onMouseUp={() => playDown()}
                     >

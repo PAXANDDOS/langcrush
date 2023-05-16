@@ -201,13 +201,28 @@ export const GamePage: React.FC = () => {
             <AnimatePresence initial={false} mode="wait">
                 {menuOpen && (
                     <MenuModal
+                        open={menuOpen}
                         title={modeName}
                         onExit={onExit}
-                        handleClose={() => setMenuOpen(false)}
+                        onClose={() => setMenuOpen(false)}
                     />
                 )}
-                {defeat && <DefeatModal score={score} onRestart={onRestart} onExit={onExit} />}
-                {victory && <VictoryModal score={score} onRestart={onRestart} onExit={onExit} />}
+                {defeat && (
+                    <DefeatModal
+                        open={defeat}
+                        score={score}
+                        onRestart={onRestart}
+                        onClose={onExit}
+                    />
+                )}
+                {victory && (
+                    <VictoryModal
+                        open={victory}
+                        score={score}
+                        onRestart={onRestart}
+                        onClose={onExit}
+                    />
+                )}
             </AnimatePresence>
         </>
     )

@@ -5,18 +5,17 @@ import { shallow } from 'zustand/shallow'
 
 import { Modal } from '@components/Modal/Modal'
 import { usePreferenceStore } from '@store/preferences'
-import { HomeModals } from 'types/Home'
+import { HomeModals, ModalProps } from 'types/Modal'
 import { SettingsButton } from './SettingsButton'
 import { SettingsSelect } from './SettingsSelect'
 import { SwitchButton } from './SwitchButton'
 
-interface Props {
-    handleClose: () => void
+interface Props extends ModalProps {
     handleSwitch: (name: HomeModals) => void
 }
 
-export const SettingsModal: React.FC<Props> = ({ handleClose, handleSwitch }) => {
-    const { t, i18n } = useTranslation(['settings'])
+export const SettingsModal: React.FC<Props> = ({ open, onClose, handleSwitch }) => {
+    const { t, i18n } = useTranslation('home')
     const [languageOpen, setLanguageOpen] = useState(false)
     const [music, sfx, vibration, setMusic, setSfx, setVibration] = usePreferenceStore(
         state => [
@@ -36,7 +35,7 @@ export const SettingsModal: React.FC<Props> = ({ handleClose, handleSwitch }) =>
     }
 
     return (
-        <Modal title={t('title')} handleClose={handleClose}>
+        <Modal open={open} title={t('settings.title')} onClose={onClose}>
             <div className="grid grid-cols-3 gap-3 gap-x-2 px-6 pt-2 relative">
                 <SwitchButton
                     name="music"
@@ -57,7 +56,7 @@ export const SettingsModal: React.FC<Props> = ({ handleClose, handleSwitch }) =>
                     disabled={!vibration}
                 />
                 <SettingsSelect
-                    title={t('language')}
+                    title={t('settings.language')}
                     onClick={() => setLanguageOpen(open => !open)}
                 />
                 <AnimatePresence initial={false} mode="wait">
@@ -102,15 +101,15 @@ export const SettingsModal: React.FC<Props> = ({ handleClose, handleSwitch }) =>
                     )}
                 </AnimatePresence>
                 <SettingsButton
-                    content={t('connect')}
+                    content={t('settings.connect')}
                     onClick={() => handleSwitch(HomeModals.Signin)}
                 />
                 <SettingsButton
-                    content={t('credits')}
+                    content={t('settings.credits')}
                     onClick={() => handleSwitch(HomeModals.Info)}
                 />
-                <SettingsButton content={t('terms')} onClick={() => null} />
-                <SettingsButton content={t('erase')} onClick={() => null} />
+                <SettingsButton content={t('settings.terms')} onClick={() => null} />
+                <SettingsButton content={t('settings.erase')} onClick={() => null} />
             </div>
         </Modal>
     )

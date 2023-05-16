@@ -1,3 +1,8 @@
+export interface ModalProps {
+    open: boolean
+    onClose: () => void
+}
+
 export enum HomeModals {
     Settings = 'settings',
     Info = 'info',

@@ -11,7 +11,7 @@ import { Button } from '@components/Common/Button'
 import { IconButton } from '@components/Common/IconButton'
 import { InfoModal } from '@components/Modal/InfoModal'
 import { SettingsModal } from '@components/Settings/SettingsModal'
-import { HomeModals } from 'types/Home'
+import { HomeModals } from 'types/Modal'
 
 const modalsInitial = {
     settings: false,
@@ -75,20 +75,30 @@ export const HomePage: React.FC = () => {
             <AnimatePresence initial={false} mode="wait">
                 {modals.settings && (
                     <SettingsModal
-                        handleClose={() => handleModalSwitch()}
+                        open={modals.settings}
+                        onClose={() => handleModalSwitch()}
                         handleSwitch={handleModalSwitch}
                     />
                 )}
-                {modals.info && <InfoModal handleClose={() => handleModalSwitch()} />}
+                {modals.info && (
+                    <InfoModal open={modals.info} onClose={() => handleModalSwitch()} />
+                )}
                 {modals.signin && (
                     <SignInModal
-                        handleClose={() => handleModalSwitch()}
+                        open={modals.signin}
+                        onClose={() => handleModalSwitch()}
                         handleSwitch={handleModalSwitch}
                     />
                 )}
-                {modals.signup && <SignUpModal handleClose={() => handleModalSwitch()} />}
-                {modals.user && <UserModal handleClose={() => handleModalSwitch()} />}
-                {modals.reset && <PasswordResetModal handleClose={() => handleModalSwitch()} />}
+                {modals.signup && (
+                    <SignUpModal open={modals.signup} onClose={() => handleModalSwitch()} />
+                )}
+                {modals.user && (
+                    <UserModal open={modals.user} onClose={() => handleModalSwitch()} />
+                )}
+                {modals.reset && (
+                    <PasswordResetModal open={modals.reset} onClose={() => handleModalSwitch()} />
+                )}
             </AnimatePresence>
         </main>
     )

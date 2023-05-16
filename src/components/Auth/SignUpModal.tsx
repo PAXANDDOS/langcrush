@@ -4,30 +4,27 @@ import { useTranslation } from 'react-i18next'
 import { Input } from '@components/Common/Input'
 import { InputSubmit } from '@components/Common/InputSubmit'
 import { Modal } from '@components/Modal/Modal'
+import type { ModalProps } from 'types/Modal'
 
-interface Props {
-    handleClose: () => void
-}
-
-export const SignUpModal: React.FC<Props> = ({ handleClose }) => {
-    const { t } = useTranslation('auth')
+export const SignUpModal: React.FC<ModalProps> = ({ open, onClose }) => {
+    const { t } = useTranslation('home')
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [password2, setPassword2] = useState('')
 
     return (
-        <Modal title={t('signup')} handleClose={handleClose}>
+        <Modal open={open} title={t('auth.signup')} onClose={onClose}>
             <form className="flex flex-col gap-4 pt-4">
                 <Input
-                    title={t('name.title')}
+                    title={t('auth.name.title')}
                     name="name"
                     value={name}
-                    placeholder={t('name.placeholder')!}
+                    placeholder={t('auth.name.placeholder')!}
                     required
                 />
                 <Input
-                    title={t('email.title')}
+                    title={t('auth.email.title')}
                     name="email"
                     value={email}
                     type="email"
@@ -35,7 +32,7 @@ export const SignUpModal: React.FC<Props> = ({ handleClose }) => {
                     required
                 />
                 <Input
-                    title={t('password.title')}
+                    title={t('auth.password.title')}
                     name="password"
                     value={password}
                     type="password"
@@ -43,14 +40,14 @@ export const SignUpModal: React.FC<Props> = ({ handleClose }) => {
                     required
                 />
                 <Input
-                    title={t('password.repeat')}
+                    title={t('auth.password.repeat')}
                     name="password2"
                     value={password2}
                     type="password"
                     placeholder="••••••••"
                     required
                 />
-                <InputSubmit title={t('signup')} />
+                <InputSubmit title={t('auth.signup')} />
             </form>
         </Modal>
     )

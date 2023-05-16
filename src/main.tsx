@@ -9,6 +9,7 @@ import { HomePage } from '@pages/HomePage/HomePage'
 import { MenuPage } from '@pages/MenuPage/MenuPage'
 
 import { Loading } from '@components/Loading/Loading'
+import { ParticlesBackground } from '@components/Particles/ParticlesBackground'
 import { useMusic } from '@hooks/useMusic'
 import './i18n'
 import './index.css'
@@ -32,7 +33,8 @@ const App: React.FC = () => {
     }, [audio, location])
 
     return (
-        <div className="bg-gradient-to-b from-white from-75% to-secondary grid place-items-center overflow-y-hidden w-screen h-screen">
+        <div className="grid place-items-center overflow-y-hidden w-screen h-screen">
+            <ParticlesBackground />
             <AnimatePresence initial={false} mode="wait">
                 <Suspense fallback={<Loading />}>
                     <Switch location={location} key={location}>

@@ -1,16 +1,13 @@
 import { useTranslation } from 'react-i18next'
 
 import { Modal } from '@components/Modal/Modal'
+import { ModalProps } from 'types/Modal'
 
-interface Props {
-    handleClose: () => void
-}
-
-export const UserModal: React.FC<Props> = ({ handleClose }) => {
-    const { t } = useTranslation('auth')
+export const UserModal: React.FC<ModalProps> = ({ open, onClose }) => {
+    const { t } = useTranslation('home')
 
     return (
-        <Modal title={t('profile')} handleClose={handleClose}>
+        <Modal open={open} title={t('auth.profile')} onClose={onClose}>
             s
         </Modal>
     )
