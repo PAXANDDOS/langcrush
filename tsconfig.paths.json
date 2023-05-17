@@ -8,7 +8,7 @@
             "@hooks/*": ["hooks/*"],
             "@helpers/*": ["helpers/*"],
             "@store/*": ["store/*"],
-            "@options/*": ["options/*"],
+            "@reducers/*": ["reducers/*"],
             "types/*": ["types/*"],
             "@routes/*": ["routes/*"],
             "@constants/*": ["constants/*"],

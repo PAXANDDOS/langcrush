@@ -12,7 +12,7 @@
         "prepare": "husky install"
     },
     "dependencies": {
-        "framer-motion": "^10.12.11",
+        "framer-motion": "^10.12.12",
         "howler": "^2.2.3",
         "i18next": "^22.4.15",
         "i18next-browser-languagedetector": "^7.0.1",
@@ -22,7 +22,7 @@
         "react-i18next": "^12.2.2",
         "swr": "^2.1.5",
         "use-sound": "^4.0.1",
-        "wouter": "^2.10.1",
+        "wouter": "^2.11.0",
         "zustand": "^4.3.8"
     },
     "devDependencies": {
@@ -42,7 +42,7 @@
         "prettier": "^2.8.8",
         "tailwindcss": "^3.3.2",
         "typescript": "^5.0.4",
-        "vite": "^4.3.6",
+        "vite": "^4.3.7",
         "vite-plugin-pwa": "^0.14.7",
         "vite-tsconfig-paths": "^4.2.0"
     },

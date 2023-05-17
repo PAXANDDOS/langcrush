@@ -9,8 +9,9 @@ import { SignUpModal } from '@components/Auth/SignUpModal'
 import { UserModal } from '@components/Auth/UserModal'
 import { Button } from '@components/Common/Button'
 import { IconButton } from '@components/Common/IconButton'
-import { InfoModal } from '@components/Modal/InfoModal'
+import { InfoModal } from '@components/Info/InfoModal'
 import { SettingsModal } from '@components/Settings/SettingsModal'
+import { useAuthStore } from '@store/auth'
 import { HomeModals } from 'types/Modal'
 
 const modalsInitial = {
@@ -25,6 +26,7 @@ const modalsInitial = {
 export const HomePage: React.FC = () => {
     const { t } = useTranslation('home')
     const setLocation = useLocation()[1]
+    const auth = useAuthStore(s => s.auth)
     const [modals, setModals] = useState(modalsInitial)
 
     const handleModalSwitch = (modal?: HomeModals) => {
@@ -55,12 +57,21 @@ export const HomePage: React.FC = () => {
                     onClick={() => setLocation('/menu')}
                     className="col-span-4"
                 />
-                <IconButton
-                    icon="fa-solid fa-right-to-bracket"
-                    color="secondary"
-                    className="col-span-2"
-                    onClick={() => handleModalSwitch(HomeModals.Signin)}
-                />
+                {auth ? (
+                    <IconButton
+                        icon="fa-solid fa-user"
+                        color="secondary"
+                        className="col-span-2"
+                        onClick={() => handleModalSwitch(HomeModals.User)}
+                    />
+                ) : (
+                    <IconButton
+                        icon="fa-solid fa-right-to-bracket"
+                        color="secondary"
+                        className="col-span-2"
+                        onClick={() => handleModalSwitch(HomeModals.Signin)}
+                    />
+                )}
                 <IconButton
                     icon="fa-solid fa-circle-info"
                     color="secondary"

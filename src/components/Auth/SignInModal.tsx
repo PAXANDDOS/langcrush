@@ -1,58 +1,57 @@
+import { AnimatePresence } from 'framer-motion'
 import { useReducer } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Input } from '@components/Common/Input'
 import { InputSubmit } from '@components/Common/InputSubmit'
+import { ModalLoading } from '@components/Loading/ModalLoding'
 import { Modal } from '@components/Modal/Modal'
+import { AUTH_LOGIN } from '@constants/api'
+import { http } from '@helpers/http'
+import { SIGNIN_ACTION, SIGNIN_INITIAL_STATE, signInReducer } from '@reducers/signInReducer'
+import { useAuthStore } from '@store/auth'
 import { HomeModals, ModalProps } from 'types/Modal'
 
 interface Props extends ModalProps {
     handleSwitch: (name: HomeModals) => void
 }
 
-interface State {
-    email: string
-    password: string
-}
-
-type Action = {
-    type: 'setEmail' | 'setPassword'
-    payload: string
-}
-
-const reducer = (state: State, action: Action): State => {
-    switch (action.type) {
-        case 'setEmail':
-            return { ...state, email: action.payload.slice(0, 32) }
-        case 'setPassword':
-            return { ...state, password: action.payload.slice(0, 64) }
-        default:
-            return state
-    }
-}
-
 export const SignInModal: React.FC<Props> = ({ open, onClose, handleSwitch }) => {
     const { t } = useTranslation('home')
-    const [state, dispatch] = useReducer(reducer, { email: '', password: '' })
+    const setUser = useAuthStore(state => state.setUser)
+    const [state, dispatch] = useReducer(signInReducer, SIGNIN_INITIAL_STATE)
 
-    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch({ type: 'setEmail', payload: event.target.value })
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch({ type: SIGNIN_ACTION.SET_FIELD, payload: e.currentTarget })
     }
 
-    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch({ type: 'setPassword', payload: event.target.value })
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        dispatch({ type: SIGNIN_ACTION.FETCH_START })
+
+        const { status, data } = await http<any>('post', AUTH_LOGIN)
+
+        if (!status) {
+            dispatch({ type: SIGNIN_ACTION.FETCH_ERROR, payload: data })
+            return
+        }
+
+        setUser(data.name, data.email, data.token)
+        dispatch({ type: SIGNIN_ACTION.FETCH_SUCCESS })
+        onClose()
     }
 
     return (
         <Modal open={open} title={t('auth.signin')} onClose={onClose}>
-            <form className="flex flex-col gap-4 pt-4">
+            <AnimatePresence>{state.loading && <ModalLoading />}</AnimatePresence>
+            <form className="flex flex-col gap-4 pt-4" onSubmit={handleSubmit}>
                 <Input
                     title={t('auth.email.title')}
                     name="email"
                     value={state.email}
                     type="email"
                     placeholder="name@game.com"
-                    onChange={handleEmailChange}
+                    onChange={handleChange}
                     required
                 />
                 <Input
@@ -61,9 +60,12 @@ export const SignInModal: React.FC<Props> = ({ open, onClose, handleSwitch }) =>
                     value={state.password}
                     type="password"
                     placeholder="••••••••"
-                    onChange={handlePasswordChange}
+                    onChange={handleChange}
                     required
                 />
+                {state.error && (
+                    <span className="text-sm text-red-400 -my-1 text-center">{state.error}</span>
+                )}
                 <button
                     className="text-sm font-medium text-secondary hover:underline"
                     onClick={() => handleSwitch(HomeModals.Reset)}

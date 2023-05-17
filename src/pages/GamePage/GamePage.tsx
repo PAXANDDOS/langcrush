@@ -59,15 +59,15 @@ export const GamePage: React.FC = () => {
 
     useEffect(() => {
         const bootGame = async () => {
-            const { status, data, error } = await http<Word[]>('get', `/categories/${modeId}/words`)
+            const { status, data } = await http<Word[]>('get', `/categories/${modeId}/words`)
 
-            if (!status || !data) {
-                setErrorMsg(error)
+            if (!status) {
+                setErrorMsg(data?.toString())
                 return
             }
 
             setBlocks(data)
-            setCurrentWord(data[Math.floor(Math.random() * data.length)])
+            setCurrentWord(data![Math.floor(Math.random() * data!.length)])
 
             setGameReady(true)
             setTurnReady(true)
@@ -122,15 +122,15 @@ export const GamePage: React.FC = () => {
             setTurnReady(false)
             setGameReady(false)
 
-            const { status, data, error } = await http<Word[]>('get', `/categories/${modeId}/words`)
+            const { status, data } = await http<Word[]>('get', `/categories/${modeId}/words`)
 
-            if (!status || !data) {
-                setErrorMsg(error?.toString())
+            if (!status) {
+                setErrorMsg(data?.toString())
                 return
             }
 
             setBlocks(data)
-            setCurrentWord(data[Math.floor(Math.random() * data.length)])
+            setCurrentWord(data![Math.floor(Math.random() * data!.length)])
 
             setLives(3)
             setScore(0)

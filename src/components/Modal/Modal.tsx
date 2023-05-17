@@ -55,7 +55,7 @@ export const Modal: React.FC<Props> = ({ open, title, children, onClose }) => {
                 animate="visible"
                 exit="exit"
             >
-                <div className="-translate-y-14">
+                <div className="-translate-y-14 z-20">
                     <h2 className="absolute top-0 left-1/2 -translate-x-1/2 min-w-2/3 px-3 bg-gradient-to-b from-pink-500 to-pink-300 rounded-xl font-extrabold tracking-wide text-xl text-white py-3 text-center shadow-block">
                         {title.toUpperCase()}
                     </h2>

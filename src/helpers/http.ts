@@ -29,9 +29,9 @@ export const http: Request = async (method, url, data, options = {}) => {
 
         const responseData = await response.json()
 
-        return { status: true, data: responseData, error: undefined }
+        return { status: true, data: responseData }
     } catch (error) {
-        return { status: true, data: undefined, error: error as string }
+        return { status: false, data: error as any }
     }
 }
 
@@ -53,5 +53,4 @@ type Request = <T>(
 ) => Promise<{
     status: boolean
     data: T | undefined
-    error: string | undefined
 }>
