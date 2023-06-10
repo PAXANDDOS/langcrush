@@ -7,6 +7,7 @@ import { Sound } from 'types/Sound'
 interface Props {
     name: string
     description?: string
+    icon?: string
     score?: number
     onClick?: () => void
 }
@@ -19,7 +20,7 @@ const item = {
     },
 }
 
-export const ModeButton: React.FC<Props> = ({ name, description, score, onClick }) => {
+export const ModeButton: React.FC<Props> = ({ name, description, icon, score, onClick }) => {
     const { t } = useTranslation('menu')
     const [playDown] = useSound(Sound.PopDown)
     const [playUp] = useSound(Sound.PopUpOn)
@@ -41,7 +42,15 @@ export const ModeButton: React.FC<Props> = ({ name, description, score, onClick 
             {name}
             <br />
             <span className="text-xs font-thin">{t('points', { points: score })}</span>
-            <i className="fa-solid fa-apple-whole absolute text-9xl right-0 bottom-0 translate-x-3 translate-y-6 opacity-60 text-shadow"></i>
+            <i
+                className={`${icon} absolute text-9xl right-0 bottom-0 translate-x-3 translate-y-6 opacity-60 text-shadow`}
+            ></i>
         </m.button>
     )
+}
+
+ModeButton.defaultProps = {
+    description: '',
+    icon: 'fa-solid fa-gamepad',
+    score: 0,
 }

@@ -9,4 +9,5 @@ export enum Sound {
     Bing = '/sounds/bing.mp3',
     Background = '/sounds/clown.mp3',
     MenuOpen = '/sounds/menu-open.mp3',
+    Crack = '/sounds/crack.mp3',
 }

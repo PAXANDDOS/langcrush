@@ -37,6 +37,10 @@ export const GamePage: React.FC = () => {
     )
     const [playSuccess] = useSound(Sound.PopX)
     const [playFail] = useSound(Sound.Bing)
+    const [crackPlaybackRate, setCrackPlaybackRate] = useState(0.45)
+    const [playCrack] = useSound(Sound.Crack, {
+        playbackRate: crackPlaybackRate,
+    })
 
     const [menuOpen, setMenuOpen] = useState(false)
     const [gameReady, setGameReady] = useState(false)
@@ -83,6 +87,7 @@ export const GamePage: React.FC = () => {
         if (name === currentWord?.name) {
             currentTarget.classList.replace('border-white', 'border-green')
             playSuccess()
+            playCrack()
             const newBlocks = blocks?.filter(item => item.name !== name)!
             setScore(s => s + name.length)
 
@@ -110,6 +115,9 @@ export const GamePage: React.FC = () => {
         if (blocks?.length === 0) {
             setScore(prevState => prevState + 1)
         }
+
+        // Set random playback rate in range
+        setCrackPlaybackRate(Math.random() * (0.7 - 0.35) + 0.35)
 
         setTimeout(() => {
             currentTarget.classList.remove('z-50')

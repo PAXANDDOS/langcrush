@@ -29,7 +29,14 @@ export const GameBlock: React.FC<Props> = ({ name, onClick }) => {
                 rotate: 180,
                 transition: { type: 'spring', damping: 10 },
             }}
-            exit={{ y: '50%', opacity: 0, transition: { duration: 0.3, delay: 0.5 } }}
+            exit={{
+                transform: [
+                    'translate(0rem) rotate(-180deg)',
+                    'translate(2rem, -2rem) rotate(-140deg)',
+                ],
+                transition: { ease: 'easeInOut', duration: 0.5 },
+                opacity: 0,
+            }}
             transition={{
                 duration: 0.2,
             }}
