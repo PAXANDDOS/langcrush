@@ -50,6 +50,7 @@ export default {
             },
             gridTemplateRows: {
                 footer: '200px minmax(900px, 1fr) 100px',
+                user: 'repeat(2, 1fr) 0.5fr',
             },
             keyframes: {
                 wiggle: {

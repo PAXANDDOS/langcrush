@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { PersistOptions, devtools, persist } from 'zustand/middleware'
+import { PersistOptions, persist } from 'zustand/middleware'
 
 interface GameState {
     modeId: number
@@ -12,16 +12,14 @@ interface GameState {
 const storage: PersistOptions<GameState> = { name: 'game-storage', version: 1 }
 
 export const useGameStore = create<GameState>()(
-    devtools(
-        persist(
-            set => ({
-                modeId: 0,
-                modeName: '',
-                score: 0,
-                startGame: (id, name) => set({ modeId: id, modeName: name }),
-                endGame: () => set({ modeId: 0, modeName: '', score: 0 }),
-            }),
-            storage
-        )
+    persist(
+        set => ({
+            modeId: 0,
+            modeName: '',
+            score: 0,
+            startGame: (id, name) => set({ modeId: id, modeName: name }),
+            endGame: () => set({ modeId: 0, modeName: '', score: 0 }),
+        }),
+        storage
     )
 )

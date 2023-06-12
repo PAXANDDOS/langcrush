@@ -26,7 +26,7 @@ const modalsInitial = {
 export const HomePage: React.FC = () => {
     const { t } = useTranslation('home')
     const setLocation = useLocation()[1]
-    const auth = useAuthStore(s => s.auth)
+    const auth = useAuthStore(s => s.token)
     const [modals, setModals] = useState(modalsInitial)
 
     const handleModalSwitch = (modal?: HomeModals) => {

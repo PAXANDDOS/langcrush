@@ -1,31 +1,37 @@
 import type { User } from 'types/User'
 import { create } from 'zustand'
-import { PersistOptions, devtools, persist } from 'zustand/middleware'
+import { PersistOptions, persist } from 'zustand/middleware'
 
 interface AuthState extends User {
-    auth: boolean
     token: string
-    setUser: (name: string, email: string, token: string) => void
+    signIn: (token: string, user: User) => void
+    signOut: () => void
 }
 
 const storage: PersistOptions<AuthState> = { name: 'auth-storage', version: 1 }
 
 export const useAuthStore = create<AuthState>()(
-    devtools(
-        persist(
-            set => ({
-                auth: false,
-                name: '',
-                email: '',
-                token: '',
-                setUser: (...data) =>
-                    set({
-                        name: data[0],
-                        email: data[1],
-                        token: data[2],
-                    }),
-            }),
-            storage
-        )
+    persist(
+        set => ({
+            name: '',
+            email: '',
+            avatar: '',
+            token: '',
+            signIn: (token, user) =>
+                set({
+                    token,
+                    name: user.name,
+                    email: user.email,
+                    avatar: user.avatar,
+                }),
+            signOut: () =>
+                set({
+                    token: '',
+                    name: '',
+                    email: '',
+                    avatar: '',
+                }),
+        }),
+        storage
     )
 )
