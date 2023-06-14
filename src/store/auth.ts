@@ -2,7 +2,7 @@ import type { User } from 'types/User'
 import { create } from 'zustand'
 import { PersistOptions, persist } from 'zustand/middleware'
 
-interface AuthState extends User {
+export interface AuthState extends User {
     token: string
     signIn: (token: string, user: User) => void
     signOut: () => void

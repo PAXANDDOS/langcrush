@@ -6,9 +6,11 @@ import { Input } from '@components/Common/Input'
 import { InputSubmit } from '@components/Common/InputSubmit'
 import { ModalLoading } from '@components/Loading/ModalLoding'
 import { Modal } from '@components/Modal/Modal'
+import { AUTH_LOGIN } from '@constants/api'
+import { http } from '@helpers/http'
 import { randomEnumValue } from '@helpers/randomEnumValue'
 import { SIGNIN_ACTION, SIGNIN_INITIAL_STATE, signInReducer } from '@reducers/signInReducer'
-import { useAuthStore } from '@store/auth'
+import { AuthState, useAuthStore } from '@store/auth'
 import { Avatar } from 'types/Avatar'
 import { HomeModals, ModalProps } from 'types/Modal'
 
@@ -29,20 +31,18 @@ export const SignInModal: React.FC<Props> = ({ open, onClose, handleSwitch }) =>
         e.preventDefault()
         dispatch({ type: SIGNIN_ACTION.FETCH_START })
 
-        // const { status, data } = await http<any>('post', AUTH_LOGIN)
+        const { status, data } = await http<AuthState>('post', AUTH_LOGIN)
 
-        // if (!status) {
-        //     dispatch({ type: SIGNIN_ACTION.FETCH_ERROR, payload: data })
-        //     return
-        // }
-
-        const response = {
-            name: 'John Doe',
-            email: 'mister.cringe@sex.no',
-            avatar: randomEnumValue(Avatar),
+        if (!status || !data) {
+            dispatch({ type: SIGNIN_ACTION.FETCH_ERROR, payload: data })
+            return
         }
 
-        signIn('1234567890', response)
+        signIn(data.token, {
+            ...data,
+            avatar: randomEnumValue(Avatar),
+        })
+
         dispatch({ type: SIGNIN_ACTION.FETCH_SUCCESS })
         handleSwitch(HomeModals.User)
     }

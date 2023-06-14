@@ -44,6 +44,8 @@ export const IconButton: React.FC<Props> = ({ icon, color, size, className, onCl
                 duration: 0.2,
             }}
             type="button"
+            role="button"
+            aria-description={icon}
             className={`shadow-button border-2 border-shadow
             ${colorVariants[color!]} ${sizeVariants[size!]} ${className}`}
             onClick={onClick}
