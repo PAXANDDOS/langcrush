@@ -1,18 +1,17 @@
 import react from '@vitejs/plugin-react-swc'
 import { defineConfig } from 'vite'
 import { VitePWA, VitePWAOptions } from 'vite-plugin-pwa'
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 const pwaOptions: Partial<VitePWAOptions> = {
-    mode: 'development',
     base: '/',
     includeAssets: ['favicon.svg', 'favicon.png', 'robots.txt', 'apple-touch-icon.png'],
     registerType: 'autoUpdate',
     manifest: {
         lang: 'uk',
-        name: 'Langdice - Англійська граючи',
-        short_name: 'Langdice',
+        name: 'Langcrush',
         description:
-            'Langdice це гра, яка допоможе вам вивчити англійську мову. Ви можете вивчити різноманітні слова та сленг граючи.',
+            'Langcrush це гра, яка допоможе вам вивчити англійську мову. Ви можете вивчити різноманітні слова та сленг граючи.',
         categories: ['education', 'game', 'language', 'learning', 'quiz', 'vocabulary', 'words'],
         iarc_rating_id: 'Ages 3+',
         theme_color: '#DEF1FF',
@@ -77,6 +76,26 @@ const pwaOptions: Partial<VitePWAOptions> = {
                     },
                 },
             },
+            {
+                urlPattern: /^https:\/\/fonts\.gstatic\.com/,
+                handler: 'CacheFirst' as const,
+                options: {
+                    cacheName: 'google-fonts',
+                    cacheableResponse: {
+                        statuses: [0, 200],
+                    },
+                },
+            },
+            {
+                urlPattern: /https:\/\/.*\.mockapi\.io/,
+                handler: 'NetworkFirst' as const,
+                options: {
+                    cacheName: 'mockapi-responses',
+                    cacheableResponse: {
+                        statuses: [0, 200, 201, 204],
+                    },
+                },
+            },
         ],
     },
     devOptions: {
@@ -88,5 +107,10 @@ const pwaOptions: Partial<VitePWAOptions> = {
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [react(), VitePWA(pwaOptions)],
+    server: {
+        host: true,
+        port: 3000,
+    },
+    plugins: [react(), VitePWA(pwaOptions), tsconfigPaths()],
+    base: './',
 })

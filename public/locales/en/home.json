@@ -1,0 +1,38 @@
+{
+    "play": "Play",
+    "info": {
+        "title": "Information",
+        "1": "Langcrush is an addictive and educational game created with the aim of helping people learn Ukrainian. Our goal is to make the language learning process interesting and fun to motivate users to improve their language skills.",
+        "2": "You can create an account to save progress in categories and get the ability to play on any devices.",
+        "3": "If you have any suggestions or questions, please contact us - "
+    },
+    "settings": {
+        "language": "English",
+        "title": "Settings",
+        "connect": "Connect",
+        "credits": "Credits",
+        "terms": "Terms and Privacy",
+        "erase": "Erase data"
+    },
+    "auth": {
+        "name": {
+            "title": "Your name",
+            "placeholder": "Best Player"
+        },
+        "email": {
+            "title": "Your email"
+        },
+        "password": {
+            "title": "Your password",
+            "repeat": "Repeat password",
+            "forgot": "Forgot password?",
+            "reset": "Reset password"
+        },
+        "profile": {
+            "title": "Profile"
+        },
+        "noaccount": "Dont have an account yet?",
+        "signup": "Sign up",
+        "signin": "Sign in"
+    }
+}

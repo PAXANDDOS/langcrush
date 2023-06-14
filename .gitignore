@@ -33,3 +33,6 @@ lerna-debug.log*
 /dist-ssr
 /dev-dist
 *.local
+/test-results/
+/playwright-report/
+/playwright/.cache/
