@@ -11,6 +11,7 @@ import { Loading } from '@components/Loading/Loading'
 import { http } from '@helpers/http'
 import { useSound } from '@hooks/useSound'
 import { useGameStore } from '@store/game'
+import { useTranslation } from 'react-i18next'
 import { Sound } from 'types/Sound'
 import type { Word } from 'types/Word'
 import { shallow } from 'zustand/shallow'
@@ -30,6 +31,7 @@ const container = {
 export const GamePage: React.FC = () => {
     const setLocation = useLocation()[1]
     const [errorMsg, setErrorMsg] = useState<string>()
+    const { i18n } = useTranslation()
 
     const [modeId, modeName, points, endGame] = useGameStore(
         state => [state.modeId, state.modeName, state.score, state.endGame],
@@ -64,14 +66,29 @@ export const GamePage: React.FC = () => {
     useEffect(() => {
         const bootGame = async () => {
             const { status, data } = await http<Word[]>('get', `/categories/${modeId}/words`)
+            // Simulate loading
+            await new Promise(resolve => setTimeout(resolve, 2000))
 
-            if (!status) {
+            if (!status || !data) {
                 setErrorMsg(data?.toString())
                 return
             }
 
+            // Shuffle array and limit to 10
+            data.sort(() => Math.random() - 0.5)
+            data.splice(10)
+
+            // Reverse translation and name if not in Ukrainian
+            if (i18n.resolvedLanguage !== 'uk') {
+                data.forEach(item => {
+                    const temp = item.name
+                    item.name = item.translation
+                    item.translation = temp
+                })
+            }
+
             setBlocks(data)
-            setCurrentWord(data![Math.floor(Math.random() * data!.length)])
+            setCurrentWord(data[Math.floor(Math.random() * data.length)])
 
             setGameReady(true)
             setTurnReady(true)
@@ -79,16 +96,17 @@ export const GamePage: React.FC = () => {
         bootGame()
     }, [])
 
-    const onBlockClick = (name: string, currentTarget: EventTarget & HTMLButtonElement) => {
+    const onBlockClick = (name: string, target: EventTarget & HTMLButtonElement) => {
         if (!turnReady) return
         setTurnReady(false)
-        currentTarget.classList.add('z-50')
+        target.classList.add('z-50')
 
         if (name === currentWord?.name) {
-            currentTarget.classList.replace('border-white', 'border-green')
+            target.classList.replace('border-white', 'border-green')
             playSuccess()
             playCrack()
             const newBlocks = blocks?.filter(item => item.name !== name)!
+            console.log(blocks, newBlocks)
             setScore(s => s + name.length)
 
             if (newBlocks?.length === 0) {
@@ -98,12 +116,12 @@ export const GamePage: React.FC = () => {
             setBlocks(newBlocks)
             setCurrentWord(newBlocks[Math.floor(Math.random() * newBlocks.length)])
         } else {
-            currentTarget.classList.replace('border-white', 'border-red-400')
-            currentTarget.classList.add('animate-wiggle')
+            target.classList.replace('border-white', 'border-red-400')
+            target.classList.add('animate-wiggle')
             playFail()
             setTimeout(() => {
-                currentTarget.classList.replace('border-red-400', 'border-white')
-                currentTarget.classList.remove('animate-wiggle')
+                target.classList.replace('border-red-400', 'border-white')
+                target.classList.remove('animate-wiggle')
             }, 700)
 
             const newLives = lives - 1
@@ -120,7 +138,8 @@ export const GamePage: React.FC = () => {
         setCrackPlaybackRate(Math.random() * (0.7 - 0.35) + 0.35)
 
         setTimeout(() => {
-            currentTarget.classList.remove('z-50')
+            target.classList.remove('z-50')
+            target.classList.replace('border-green', 'border-white')
             setTurnReady(true)
         }, 700)
     }
@@ -132,13 +151,26 @@ export const GamePage: React.FC = () => {
 
             const { status, data } = await http<Word[]>('get', `/categories/${modeId}/words`)
 
-            if (!status) {
+            if (!status || !data) {
                 setErrorMsg(data?.toString())
                 return
             }
 
+            // Shuffle array and limit to 10
+            data.sort(() => Math.random() - 0.5)
+            data.splice(10)
+
+            // Reverse translation and name if not in Ukrainian
+            if (i18n.resolvedLanguage !== 'uk') {
+                data.forEach(item => {
+                    const temp = item.name
+                    item.name = item.translation
+                    item.translation = temp
+                })
+            }
+
             setBlocks(data)
-            setCurrentWord(data![Math.floor(Math.random() * data!.length)])
+            setCurrentWord(data[Math.floor(Math.random() * data.length)])
 
             setLives(3)
             setScore(0)
@@ -181,7 +213,7 @@ export const GamePage: React.FC = () => {
                             animate="visible"
                         >
                             <AnimatePresence initial={true} mode="sync">
-                                {blocks!.map(block => (
+                                {blocks!.map((block, index) => (
                                     <GameBlock
                                         key={block.id}
                                         name={block.name}
