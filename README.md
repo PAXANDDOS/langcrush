@@ -11,4 +11,4 @@ Langrush is an interactive web game with Progressive Web App (PWA) support that 
 
 ## License
 
-All code in this repository is licensed under MIT License. See the [LICENSE](./LICENSE) file for details.
+All code in this repository is licensed under General Public License. See the [LICENSE](./LICENSE) file for details.
