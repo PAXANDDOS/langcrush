@@ -31,12 +31,21 @@ export const SignInModal: React.FC<Props> = ({ open, onClose, handleSwitch }) =>
         e.preventDefault()
         dispatch({ type: SIGNIN_ACTION.FETCH_START })
 
-        const { status, data } = await http<AuthState>('post', AUTH_LOGIN)
+        // const { status, data } = await http<AuthState>('post', AUTH_LOGIN)
 
-        if (!status || !data) {
-            dispatch({ type: SIGNIN_ACTION.FETCH_ERROR, payload: data })
-            return
+        // if (!status || !data) {
+        //     dispatch({ type: SIGNIN_ACTION.FETCH_ERROR, payload: data })
+        //     return
+        // }
+
+        const data = {
+            token: 'as',
+            name: 'Павло Літовка',
+            email: 'Pavlo.Litovka@cit.khpi.edu.ua',
+            avatar: randomEnumValue(Avatar)
         }
+
+        await new Promise(resolve => setTimeout(resolve, 2000))
 
         signIn(data.token, {
             ...data,
